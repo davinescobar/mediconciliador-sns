@@ -1,0 +1,927 @@
+[
+  {
+    "case_id": "case_001",
+    "title": "AINE + anticoagulante — paciente con fibrilación auricular",
+    "patient_profile": {
+      "age": 84,
+      "sex": "female",
+      "risk_factors": ["atrial_fibrillation", "chronic_kidney_disease", "polypharmacy"],
+      "allergies": ["penicillin"]
+    },
+    "discharge_summary": {
+      "date": "2024-11-15",
+      "diagnosis": "Acute exacerbation of atrial fibrillation",
+      "medications_at_discharge": [
+        {
+          "name": "apixaban",
+          "dose": "5 mg",
+          "frequency": "twice daily",
+          "route": "oral",
+          "notes": "Do not combine with NSAIDs. Avoid ibuprofen, naproxen, diclofenac."
+        },
+        {
+          "name": "bisoprolol",
+          "dose": "2.5 mg",
+          "frequency": "once daily (morning)",
+          "route": "oral",
+          "notes": null
+        },
+        {
+          "name": "omeprazole",
+          "dose": "20 mg",
+          "frequency": "once daily (before breakfast)",
+          "route": "oral",
+          "notes": "Gastroprotection while on anticoagulation."
+        }
+      ],
+      "medications_discontinued_at_discharge": [
+        {
+          "name": "ibuprofen",
+          "reason": "Contraindicated with anticoagulation. Risk of GI bleeding and renal impairment."
+        }
+      ]
+    },
+    "active_prescription": {
+      "date_retrieved": "2024-11-20",
+      "medications": [
+        {
+          "name": "apixaban",
+          "dose": "5 mg",
+          "frequency": "twice daily",
+          "route": "oral"
+        },
+        {
+          "name": "bisoprolol",
+          "dose": "2.5 mg",
+          "frequency": "once daily",
+          "route": "oral"
+        },
+        {
+          "name": "omeprazole",
+          "dose": "20 mg",
+          "frequency": "once daily",
+          "route": "oral"
+        }
+      ]
+    },
+    "patient_interview": {
+      "date": "2024-11-22",
+      "reported_medications": [
+        {
+          "name": "apixaban",
+          "dose": "5 mg",
+          "frequency": "twice daily",
+          "route": "oral",
+          "patient_comment": "I take this for my heart."
+        },
+        {
+          "name": "bisoprolol",
+          "dose": "2.5 mg",
+          "frequency": "once daily",
+          "route": "oral",
+          "patient_comment": null
+        },
+        {
+          "name": "omeprazole",
+          "dose": "20 mg",
+          "frequency": "once daily",
+          "route": "oral",
+          "patient_comment": "The stomach protector."
+        },
+        {
+          "name": "ibuprofen",
+          "dose": "600 mg",
+          "frequency": "as needed for knee pain",
+          "route": "oral",
+          "patient_comment": "I buy it at the pharmacy for my knee. I have taken it for years. Nobody told me to stop."
+        }
+      ],
+      "patient_concerns": "My knee pain is very bad. I don't know what to take for it.",
+      "caregiver_present": true,
+      "caregiver_notes": "Patient is buying ibuprofen without prescription. She did not connect it to the blood thinners."
+    }
+  },
+  {
+    "case_id": "case_002",
+    "title": "Omisión de diurético al alta — insuficiencia cardiaca",
+    "patient_profile": {
+      "age": 79,
+      "sex": "male",
+      "risk_factors": ["heart_failure", "hypertension", "type_2_diabetes", "polypharmacy"],
+      "allergies": []
+    },
+    "discharge_summary": {
+      "date": "2024-11-10",
+      "diagnosis": "Acute decompensated heart failure",
+      "medications_at_discharge": [
+        {
+          "name": "furosemide",
+          "dose": "40 mg",
+          "frequency": "once daily (morning)",
+          "route": "oral",
+          "notes": "Essential for fluid management. Do not stop without medical advice."
+        },
+        {
+          "name": "ramipril",
+          "dose": "5 mg",
+          "frequency": "once daily",
+          "route": "oral",
+          "notes": null
+        },
+        {
+          "name": "carvedilol",
+          "dose": "6.25 mg",
+          "frequency": "twice daily",
+          "route": "oral",
+          "notes": null
+        },
+        {
+          "name": "metformin",
+          "dose": "850 mg",
+          "frequency": "twice daily",
+          "route": "oral",
+          "notes": null
+        }
+      ],
+      "medications_discontinued_at_discharge": []
+    },
+    "active_prescription": {
+      "date_retrieved": "2024-11-18",
+      "medications": [
+        {
+          "name": "ramipril",
+          "dose": "5 mg",
+          "frequency": "once daily",
+          "route": "oral"
+        },
+        {
+          "name": "carvedilol",
+          "dose": "6.25 mg",
+          "frequency": "twice daily",
+          "route": "oral"
+        },
+        {
+          "name": "metformin",
+          "dose": "850 mg",
+          "frequency": "twice daily",
+          "route": "oral"
+        }
+      ]
+    },
+    "patient_interview": {
+      "date": "2024-11-20",
+      "reported_medications": [
+        {
+          "name": "ramipril",
+          "dose": "5 mg",
+          "frequency": "once daily",
+          "route": "oral",
+          "patient_comment": null
+        },
+        {
+          "name": "carvedilol",
+          "dose": "6.25 mg",
+          "frequency": "twice daily",
+          "route": "oral",
+          "patient_comment": null
+        },
+        {
+          "name": "metformin",
+          "dose": "850 mg",
+          "frequency": "twice daily",
+          "route": "oral",
+          "patient_comment": null
+        }
+      ],
+      "patient_concerns": "I have been feeling more swollen in my ankles since I got home. I think it is the heat.",
+      "caregiver_present": false,
+      "caregiver_notes": null
+    }
+  },
+  {
+    "case_id": "case_003",
+    "title": "Duplicidad marca/genérico — hipertensión y polimedicación",
+    "patient_profile": {
+      "age": 87,
+      "sex": "female",
+      "risk_factors": ["hypertension", "osteoporosis", "polypharmacy", "cognitive_mild_impairment"],
+      "allergies": []
+    },
+    "discharge_summary": {
+      "date": "2024-11-05",
+      "diagnosis": "Hip fracture, post-surgical recovery",
+      "medications_at_discharge": [
+        {
+          "name": "omeprazole",
+          "dose": "20 mg",
+          "frequency": "once daily (before breakfast)",
+          "route": "oral",
+          "notes": "Gastroprotection. Continue as prescribed."
+        },
+        {
+          "name": "amlodipine",
+          "dose": "5 mg",
+          "frequency": "once daily",
+          "route": "oral",
+          "notes": null
+        },
+        {
+          "name": "calcium carbonate + vitamin D",
+          "dose": "500 mg / 400 IU",
+          "frequency": "twice daily",
+          "route": "oral",
+          "notes": null
+        }
+      ],
+      "medications_discontinued_at_discharge": []
+    },
+    "active_prescription": {
+      "date_retrieved": "2024-11-18",
+      "medications": [
+        {
+          "name": "omeprazole",
+          "dose": "20 mg",
+          "frequency": "once daily",
+          "route": "oral"
+        },
+        {
+          "name": "amlodipine",
+          "dose": "5 mg",
+          "frequency": "once daily",
+          "route": "oral"
+        },
+        {
+          "name": "calcium carbonate + vitamin D",
+          "dose": "500 mg / 400 IU",
+          "frequency": "twice daily",
+          "route": "oral"
+        }
+      ]
+    },
+    "patient_interview": {
+      "date": "2024-11-20",
+      "reported_medications": [
+        {
+          "name": "omeprazole",
+          "dose": "20 mg",
+          "frequency": "once daily",
+          "route": "oral",
+          "patient_comment": "My doctor gave me this at the hospital."
+        },
+        {
+          "name": "stomach protector",
+          "dose": "unknown",
+          "frequency": "once daily",
+          "route": "oral",
+          "patient_comment": "I also buy this at the pharmacy. I have been taking it for years. It is a small green capsule. I think it is for the stomach."
+        },
+        {
+          "name": "amlodipine",
+          "dose": "5 mg",
+          "frequency": "once daily",
+          "route": "oral",
+          "patient_comment": null
+        },
+        {
+          "name": "calcium supplement",
+          "dose": "unsure",
+          "frequency": "twice daily",
+          "route": "oral",
+          "patient_comment": "The pharmacist gave me these for my bones."
+        }
+      ],
+      "patient_concerns": "I am not sure if all these medicines are the same or different. My daughter helps me but she is not always here.",
+      "caregiver_present": false,
+      "caregiver_notes": null
+    }
+  },
+  {
+    "case_id": "case_004",
+    "title": "Doble anticoagulación — Sintrom no retirado tras cambio a apixabán",
+    "patient_profile": {
+      "age": 79,
+      "sex": "male",
+      "risk_factors": ["atrial_fibrillation", "hypertension", "polypharmacy", "chronic_kidney_disease"],
+      "allergies": []
+    },
+    "discharge_summary": {
+      "date": "2024-12-01",
+      "diagnosis": "Deep vein thrombosis, anticoagulation switch from VKA to DOAC",
+      "medications_at_discharge": [
+        {
+          "name": "apixaban",
+          "dose": "5 mg",
+          "frequency": "twice daily",
+          "route": "oral",
+          "notes": "Replaces acenocoumarol. Do not take both. INR monitoring no longer required."
+        },
+        {
+          "name": "enalapril",
+          "dose": "10 mg",
+          "frequency": "once daily",
+          "route": "oral",
+          "notes": null
+        },
+        {
+          "name": "atorvastatin",
+          "dose": "40 mg",
+          "frequency": "once daily (evening)",
+          "route": "oral",
+          "notes": null
+        }
+      ],
+      "medications_discontinued_at_discharge": [
+        {
+          "name": "acenocoumarol",
+          "reason": "Replaced by apixaban. Patient must not take both anticoagulants simultaneously."
+        }
+      ]
+    },
+    "active_prescription": {
+      "date_retrieved": "2024-12-08",
+      "medications": [
+        {
+          "name": "apixaban",
+          "dose": "5 mg",
+          "frequency": "twice daily",
+          "route": "oral"
+        },
+        {
+          "name": "enalapril",
+          "dose": "10 mg",
+          "frequency": "once daily",
+          "route": "oral"
+        },
+        {
+          "name": "atorvastatin",
+          "dose": "40 mg",
+          "frequency": "once daily",
+          "route": "oral"
+        }
+      ]
+    },
+    "patient_interview": {
+      "date": "2024-12-10",
+      "reported_medications": [
+        {
+          "name": "Sintrom",
+          "dose": "3 mg",
+          "frequency": "once daily",
+          "route": "oral",
+          "patient_comment": "I have been on this for 12 years. I am not sure the new one is the same. I kept taking it just in case."
+        },
+        {
+          "name": "apixaban",
+          "dose": "5 mg",
+          "frequency": "twice daily",
+          "route": "oral",
+          "patient_comment": "The new blood thinner from the hospital."
+        },
+        {
+          "name": "enalapril",
+          "dose": "10 mg",
+          "frequency": "once daily",
+          "route": "oral",
+          "patient_comment": null
+        },
+        {
+          "name": "atorvastatin",
+          "dose": "40 mg",
+          "frequency": "once daily",
+          "route": "oral",
+          "patient_comment": null
+        }
+      ],
+      "patient_concerns": "I did not want to stop the Sintrom without asking a doctor first. I thought taking both would be safer.",
+      "caregiver_present": true,
+      "caregiver_notes": "Family was not aware the two drugs are both anticoagulants. They did not understand the discharge instructions."
+    }
+  },
+  {
+    "case_id": "case_005",
+    "title": "Warfarina ausente de la receta — prótesis valvular mecánica",
+    "patient_profile": {
+      "age": 82,
+      "sex": "female",
+      "risk_factors": ["mechanical_heart_valve", "atrial_fibrillation", "hypertension", "polypharmacy"],
+      "allergies": []
+    },
+    "discharge_summary": {
+      "date": "2024-12-03",
+      "diagnosis": "Warfarin dose adjustment, mechanical heart valve follow-up",
+      "medications_at_discharge": [
+        {
+          "name": "warfarin",
+          "dose": "4 mg",
+          "frequency": "once daily",
+          "route": "oral",
+          "notes": "Dose adjusted after INR review. Mandatory for mechanical valve. INR target 2.5-3.5. Do not stop without haematology review."
+        },
+        {
+          "name": "amlodipine",
+          "dose": "5 mg",
+          "frequency": "once daily",
+          "route": "oral",
+          "notes": null
+        },
+        {
+          "name": "omeprazole",
+          "dose": "20 mg",
+          "frequency": "once daily (before breakfast)",
+          "route": "oral",
+          "notes": "Gastroprotection while on anticoagulation."
+        }
+      ],
+      "medications_discontinued_at_discharge": []
+    },
+    "active_prescription": {
+      "date_retrieved": "2024-12-10",
+      "medications": [
+        {
+          "name": "amlodipine",
+          "dose": "5 mg",
+          "frequency": "once daily",
+          "route": "oral"
+        },
+        {
+          "name": "omeprazole",
+          "dose": "20 mg",
+          "frequency": "once daily",
+          "route": "oral"
+        }
+      ]
+    },
+    "patient_interview": {
+      "date": "2024-12-12",
+      "reported_medications": [
+        {
+          "name": "amlodipine",
+          "dose": "5 mg",
+          "frequency": "once daily",
+          "route": "oral",
+          "patient_comment": null
+        },
+        {
+          "name": "omeprazole",
+          "dose": "20 mg",
+          "frequency": "once daily",
+          "route": "oral",
+          "patient_comment": null
+        }
+      ],
+      "patient_concerns": "Nobody told me to pick up the warfarin. I assumed the prescription was complete.",
+      "caregiver_present": false,
+      "caregiver_notes": null
+    }
+  },
+  {
+    "case_id": "case_006",
+    "title": "Omisión de torasemida — edema sin insuficiencia cardiaca documentada",
+    "patient_profile": {
+      "age": 76,
+      "sex": "male",
+      "risk_factors": ["hypertension", "type_2_diabetes", "peripheral_edema", "polypharmacy"],
+      "allergies": []
+    },
+    "discharge_summary": {
+      "date": "2024-12-05",
+      "diagnosis": "Lower limb edema, uncontrolled hypertension",
+      "medications_at_discharge": [
+        {
+          "name": "torasemide",
+          "dose": "10 mg",
+          "frequency": "once daily (morning)",
+          "route": "oral",
+          "notes": "Diuretic for fluid management. Do not stop without medical review."
+        },
+        {
+          "name": "ramipril",
+          "dose": "5 mg",
+          "frequency": "once daily",
+          "route": "oral",
+          "notes": null
+        },
+        {
+          "name": "metformin",
+          "dose": "850 mg",
+          "frequency": "twice daily",
+          "route": "oral",
+          "notes": null
+        }
+      ],
+      "medications_discontinued_at_discharge": []
+    },
+    "active_prescription": {
+      "date_retrieved": "2024-12-12",
+      "medications": [
+        {
+          "name": "ramipril",
+          "dose": "5 mg",
+          "frequency": "once daily",
+          "route": "oral"
+        },
+        {
+          "name": "metformin",
+          "dose": "850 mg",
+          "frequency": "twice daily",
+          "route": "oral"
+        }
+      ]
+    },
+    "patient_interview": {
+      "date": "2024-12-14",
+      "reported_medications": [
+        {
+          "name": "ramipril",
+          "dose": "5 mg",
+          "frequency": "once daily",
+          "route": "oral",
+          "patient_comment": null
+        },
+        {
+          "name": "metformin",
+          "dose": "850 mg",
+          "frequency": "twice daily",
+          "route": "oral",
+          "patient_comment": null
+        }
+      ],
+      "patient_concerns": "My ankles are swelling again. I thought it would pass on its own.",
+      "caregiver_present": false,
+      "caregiver_notes": null
+    }
+  },
+  {
+    "case_id": "case_007",
+    "title": "Glibenclamida no documentada — paciente toma antidiabético antiguo",
+    "patient_profile": {
+      "age": 78,
+      "sex": "female",
+      "risk_factors": ["type_2_diabetes", "hypertension", "polypharmacy"],
+      "allergies": []
+    },
+    "discharge_summary": {
+      "date": "2024-12-08",
+      "diagnosis": "Poorly controlled type 2 diabetes, hypertensive crisis",
+      "medications_at_discharge": [
+        {
+          "name": "metformin",
+          "dose": "1000 mg",
+          "frequency": "twice daily",
+          "route": "oral",
+          "notes": "Optimised dose. Take with meals."
+        },
+        {
+          "name": "lisinopril",
+          "dose": "10 mg",
+          "frequency": "once daily",
+          "route": "oral",
+          "notes": null
+        }
+      ],
+      "medications_discontinued_at_discharge": []
+    },
+    "active_prescription": {
+      "date_retrieved": "2024-12-15",
+      "medications": [
+        {
+          "name": "metformin",
+          "dose": "1000 mg",
+          "frequency": "twice daily",
+          "route": "oral"
+        },
+        {
+          "name": "lisinopril",
+          "dose": "10 mg",
+          "frequency": "once daily",
+          "route": "oral"
+        }
+      ]
+    },
+    "patient_interview": {
+      "date": "2024-12-17",
+      "reported_medications": [
+        {
+          "name": "metformin",
+          "dose": "1000 mg",
+          "frequency": "twice daily",
+          "route": "oral",
+          "patient_comment": null
+        },
+        {
+          "name": "lisinopril",
+          "dose": "10 mg",
+          "frequency": "once daily",
+          "route": "oral",
+          "patient_comment": null
+        },
+        {
+          "name": "glibenclamide",
+          "dose": "5 mg",
+          "frequency": "once daily",
+          "route": "oral",
+          "patient_comment": "My previous doctor prescribed this years ago for the sugar. I still had some boxes at home so I kept taking it. I did not want to run out of medication."
+        }
+      ],
+      "patient_concerns": "I have had one episode of sweating and shakiness in the morning. I thought it was the heat.",
+      "caregiver_present": false,
+      "caregiver_notes": null
+    }
+  },
+  {
+    "case_id": "case_008",
+    "title": "Duplicidad PPI — omeprazol prescrito y protector gástrico OTC",
+    "patient_profile": {
+      "age": 85,
+      "sex": "female",
+      "risk_factors": ["osteoporosis", "hypertension", "polypharmacy", "cognitive_mild_impairment"],
+      "allergies": []
+    },
+    "discharge_summary": {
+      "date": "2024-12-02",
+      "diagnosis": "Femoral neck fracture, post-surgical recovery",
+      "medications_at_discharge": [
+        {
+          "name": "omeprazole",
+          "dose": "20 mg",
+          "frequency": "once daily (before breakfast)",
+          "route": "oral",
+          "notes": "Gastroprotection. Continue as prescribed."
+        },
+        {
+          "name": "amlodipine",
+          "dose": "5 mg",
+          "frequency": "once daily",
+          "route": "oral",
+          "notes": null
+        },
+        {
+          "name": "calcium carbonate + vitamin D",
+          "dose": "500 mg / 400 IU",
+          "frequency": "twice daily",
+          "route": "oral",
+          "notes": "Essential for bone recovery."
+        }
+      ],
+      "medications_discontinued_at_discharge": []
+    },
+    "active_prescription": {
+      "date_retrieved": "2024-12-10",
+      "medications": [
+        {
+          "name": "omeprazole",
+          "dose": "20 mg",
+          "frequency": "once daily",
+          "route": "oral"
+        },
+        {
+          "name": "amlodipine",
+          "dose": "5 mg",
+          "frequency": "once daily",
+          "route": "oral"
+        },
+        {
+          "name": "calcium carbonate + vitamin D",
+          "dose": "500 mg / 400 IU",
+          "frequency": "twice daily",
+          "route": "oral"
+        }
+      ]
+    },
+    "patient_interview": {
+      "date": "2024-12-12",
+      "reported_medications": [
+        {
+          "name": "omeprazole",
+          "dose": "20 mg",
+          "frequency": "once daily",
+          "route": "oral",
+          "patient_comment": "The doctor at the hospital gave me this."
+        },
+        {
+          "name": "protector gástrico",
+          "dose": "unknown",
+          "frequency": "once daily",
+          "route": "oral",
+          "patient_comment": "I have been buying this at the pharmacy for years. A small white capsule for my stomach. I do not think it is the same as the one from the hospital."
+        },
+        {
+          "name": "amlodipine",
+          "dose": "5 mg",
+          "frequency": "once daily",
+          "route": "oral",
+          "patient_comment": null
+        },
+        {
+          "name": "calcium supplement",
+          "dose": "500 mg",
+          "frequency": "twice daily",
+          "route": "oral",
+          "patient_comment": "For my bones, the nurse said."
+        }
+      ],
+      "patient_concerns": "I am not sure which of the stomach pills I should keep. My daughter thinks they might be the same.",
+      "caregiver_present": false,
+      "caregiver_notes": null
+    }
+  },
+  {
+    "case_id": "case_009",
+    "title": "Digoxina discontinuada — paciente sigue tomándola tras toxicidad",
+    "patient_profile": {
+      "age": 80,
+      "sex": "male",
+      "risk_factors": ["heart_failure", "atrial_fibrillation", "chronic_kidney_disease", "polypharmacy"],
+      "allergies": []
+    },
+    "discharge_summary": {
+      "date": "2024-12-06",
+      "diagnosis": "Suspected digoxin toxicity, decompensated heart failure",
+      "medications_at_discharge": [
+        {
+          "name": "bisoprolol",
+          "dose": "2.5 mg",
+          "frequency": "once daily (morning)",
+          "route": "oral",
+          "notes": "Added for rate control. Replaces digoxin."
+        },
+        {
+          "name": "furosemide",
+          "dose": "40 mg",
+          "frequency": "once daily (morning)",
+          "route": "oral",
+          "notes": "Continue for fluid management."
+        },
+        {
+          "name": "spironolactone",
+          "dose": "25 mg",
+          "frequency": "once daily",
+          "route": "oral",
+          "notes": null
+        }
+      ],
+      "medications_discontinued_at_discharge": [
+        {
+          "name": "digoxin",
+          "reason": "Suspected toxicity. Narrow therapeutic index. Replaced by bisoprolol for rate control."
+        }
+      ]
+    },
+    "active_prescription": {
+      "date_retrieved": "2024-12-13",
+      "medications": [
+        {
+          "name": "bisoprolol",
+          "dose": "2.5 mg",
+          "frequency": "once daily",
+          "route": "oral"
+        },
+        {
+          "name": "furosemide",
+          "dose": "40 mg",
+          "frequency": "once daily",
+          "route": "oral"
+        },
+        {
+          "name": "spironolactone",
+          "dose": "25 mg",
+          "frequency": "once daily",
+          "route": "oral"
+        }
+      ]
+    },
+    "patient_interview": {
+      "date": "2024-12-15",
+      "reported_medications": [
+        {
+          "name": "bisoprolol",
+          "dose": "2.5 mg",
+          "frequency": "once daily",
+          "route": "oral",
+          "patient_comment": "The new heart pill from the hospital."
+        },
+        {
+          "name": "furosemide",
+          "dose": "40 mg",
+          "frequency": "once daily",
+          "route": "oral",
+          "patient_comment": null
+        },
+        {
+          "name": "spironolactone",
+          "dose": "25 mg",
+          "frequency": "once daily",
+          "route": "oral",
+          "patient_comment": null
+        },
+        {
+          "name": "digoxin",
+          "dose": "0.25 mg",
+          "frequency": "once daily",
+          "route": "oral",
+          "patient_comment": "I have been on this for 8 years. I still have a full box at home. I did not want to throw it away without asking."
+        }
+      ],
+      "patient_concerns": "I have been feeling some nausea and my heart feels irregular. I thought it was normal after the hospital stay.",
+      "caregiver_present": false,
+      "caregiver_notes": null
+    }
+  },
+  {
+    "case_id": "case_010",
+    "title": "Aspirina OTC no documentada — arteriopatía periférica y polimedicación",
+    "patient_profile": {
+      "age": 73,
+      "sex": "male",
+      "risk_factors": ["type_2_diabetes", "hypertension", "peripheral_arterial_disease", "polypharmacy"],
+      "allergies": []
+    },
+    "discharge_summary": {
+      "date": "2024-12-07",
+      "diagnosis": "Peripheral arterial disease, foot ulcer management",
+      "medications_at_discharge": [
+        {
+          "name": "metformin",
+          "dose": "850 mg",
+          "frequency": "twice daily",
+          "route": "oral",
+          "notes": "Take with meals."
+        },
+        {
+          "name": "ramipril",
+          "dose": "10 mg",
+          "frequency": "once daily",
+          "route": "oral",
+          "notes": null
+        },
+        {
+          "name": "amlodipine",
+          "dose": "5 mg",
+          "frequency": "once daily",
+          "route": "oral",
+          "notes": null
+        }
+      ],
+      "medications_discontinued_at_discharge": []
+    },
+    "active_prescription": {
+      "date_retrieved": "2024-12-14",
+      "medications": [
+        {
+          "name": "metformin",
+          "dose": "850 mg",
+          "frequency": "twice daily",
+          "route": "oral"
+        },
+        {
+          "name": "ramipril",
+          "dose": "10 mg",
+          "frequency": "once daily",
+          "route": "oral"
+        },
+        {
+          "name": "amlodipine",
+          "dose": "5 mg",
+          "frequency": "once daily",
+          "route": "oral"
+        }
+      ]
+    },
+    "patient_interview": {
+      "date": "2024-12-16",
+      "reported_medications": [
+        {
+          "name": "metformin",
+          "dose": "850 mg",
+          "frequency": "twice daily",
+          "route": "oral",
+          "patient_comment": null
+        },
+        {
+          "name": "ramipril",
+          "dose": "10 mg",
+          "frequency": "once daily",
+          "route": "oral",
+          "patient_comment": null
+        },
+        {
+          "name": "amlodipine",
+          "dose": "5 mg",
+          "frequency": "once daily",
+          "route": "oral",
+          "patient_comment": null
+        },
+        {
+          "name": "aspirin",
+          "dose": "100 mg",
+          "frequency": "once daily",
+          "route": "oral",
+          "patient_comment": "I buy it at the pharmacy without a prescription. I read online it is good for the circulation and to thin the blood a bit. I have been taking it for about two years."
+        }
+      ],
+      "patient_concerns": "I want to make sure the aspirin is safe with the other pills. Nobody has mentioned it before.",
+      "caregiver_present": false,
+      "caregiver_notes": null
+    }
+  }
+]

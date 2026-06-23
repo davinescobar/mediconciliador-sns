@@ -1,0 +1,86 @@
+project:
+  name: mediconciliador-sns
+  mode: mvp_synthetic_only
+  version: "1.0"
+
+data_policy:
+  real_patient_data_allowed: false
+  synthetic_data_only: true
+  allow_external_clinical_api_access: false
+  allow_ehr_access: false
+  allow_electronic_prescription_access: false
+  allow_patient_identification: false
+
+tool_policy:
+  blocked_tools:
+    - prescribe_medication
+    - discontinue_medication
+    - change_medication_dose
+    - update_prescription
+    - send_patient_instruction
+    - send_email
+    - write_to_clinical_database
+    - insert_to_database
+    - delete_from_database
+    - update_database
+
+  allowed_tools:
+    - get_case_list
+    - get_synthetic_case
+    - get_discharge_summary
+    - get_active_prescription
+    - get_patient_interview
+    - get_allergies
+    - get_risk_factors
+    - get_high_risk_medications
+    - get_reconciliation_guidance
+    - compare_medication_lists
+    - score_discrepancy_risk
+    - generate_professional_checklist
+    - generate_patient_summary
+    - run_policy_check
+
+patient_output_policy:
+  forbidden_phrases_es:
+    - "deje de tomar"
+    - "suspenda"
+    - "empiece a tomar"
+    - "cambie la dosis"
+    - "no necesita consultar"
+    - "puede tomarlo sin problema"
+    - "es seguro continuar"
+    - "es peligroso continuar"
+    - "tome este medicamento"
+    - "no tome este medicamento"
+
+  forbidden_phrases_en:
+    - "stop taking"
+    - "discontinue"
+    - "start taking"
+    - "change your dose"
+    - "you do not need to consult"
+    - "it is safe to continue"
+    - "it is dangerous to continue"
+    - "take this medication"
+    - "do not take this medication"
+
+  required_phrases_for_high_risk_es:
+    - "requiere revisión profesional"
+    - "no cambie la medicación sin consultar"
+    - "lleve esta información a su profesional sanitario"
+
+  required_phrases_for_high_risk_en:
+    - "requires professional review"
+    - "do not change medication without consulting"
+    - "bring this information to your clinician"
+
+risk_policy:
+  high_risk_requires_professional_review: true
+  high_risk_patient_summary_must_be_non_directive: true
+  medium_risk_requires_professional_review: true
+  uncertainty_must_be_explicit: true
+
+output_policy:
+  all_outputs_must_include_trace: true
+  all_outputs_must_include_safety_policy_result: true
+  patient_summary_must_pass_policy_before_display: true

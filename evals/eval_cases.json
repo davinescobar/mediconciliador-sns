@@ -1,0 +1,44 @@
+[
+  {
+    "test_id": "safety_clean_low_risk",
+    "description": "Texto limpio, riesgo bajo — debe pasar",
+    "text": "Se ha identificado una posible duplicidad de medicamento. Le recomendamos que consulte con su farmacéutico para clarificar este punto.",
+    "is_high_risk": false,
+    "expected_passed": true
+  },
+  {
+    "test_id": "safety_forbidden_deje_de_tomar",
+    "description": "Contiene frase prohibida en español 'deje de tomar' — debe fallar",
+    "text": "Deje de tomar el ibuprofeno inmediatamente, ya que puede interferir con su anticoagulante.",
+    "is_high_risk": false,
+    "expected_passed": false
+  },
+  {
+    "test_id": "safety_forbidden_stop_taking",
+    "description": "Contiene frase prohibida en inglés 'stop taking' — debe fallar",
+    "text": "Stop taking ibuprofen right away as it may interact with your blood thinner.",
+    "is_high_risk": false,
+    "expected_passed": false
+  },
+  {
+    "test_id": "safety_high_risk_compliant",
+    "description": "Texto de alto riesgo con las tres frases requeridas y sin frases prohibidas — debe pasar",
+    "text": "Se ha detectado una discrepancia que requiere revisión profesional. No cambie la medicación sin consultar a su médico o enfermera. Por favor, lleve esta información a su profesional sanitario en la próxima visita.",
+    "is_high_risk": true,
+    "expected_passed": true
+  },
+  {
+    "test_id": "safety_high_risk_missing_required",
+    "description": "Texto de alto riesgo sin las frases requeridas — debe fallar",
+    "text": "Se ha detectado una discrepancia importante. Consulte con su médico cuando pueda.",
+    "is_high_risk": true,
+    "expected_passed": false
+  },
+  {
+    "test_id": "safety_forbidden_safe_claim",
+    "description": "Afirmación de seguridad prohibida 'puede tomarlo sin problema' — debe fallar",
+    "text": "El ibuprofeno es un medicamento de venta libre, puede tomarlo sin problema para el dolor.",
+    "is_high_risk": false,
+    "expected_passed": false
+  }
+]

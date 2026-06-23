@@ -1,0 +1,67 @@
+version: "1.0"
+description: "Phrases forbidden in patient-facing outputs. Any output containing these phrases must be blocked and rewritten."
+
+phrases:
+  spanish:
+    - phrase: "deje de tomar"
+      severity: critical
+      reason: "Direct medication discontinuation instruction."
+    - phrase: "suspenda"
+      severity: critical
+      reason: "Direct medication discontinuation instruction."
+    - phrase: "empiece a tomar"
+      severity: critical
+      reason: "Direct medication initiation instruction."
+    - phrase: "cambie la dosis"
+      severity: critical
+      reason: "Direct dose change instruction."
+    - phrase: "no necesita consultar"
+      severity: critical
+      reason: "Dismisses the need for professional review."
+    - phrase: "puede tomarlo sin problema"
+      severity: critical
+      reason: "Claims safety without professional evaluation."
+    - phrase: "es seguro continuar"
+      severity: critical
+      reason: "Claims safety without professional evaluation."
+    - phrase: "es peligroso continuar"
+      severity: high
+      reason: "Alarmist statement without professional context."
+    - phrase: "tome este medicamento"
+      severity: critical
+      reason: "Direct prescription equivalent."
+    - phrase: "no tome este medicamento"
+      severity: critical
+      reason: "Direct discontinuation equivalent."
+
+  english:
+    - phrase: "stop taking"
+      severity: critical
+      reason: "Direct medication discontinuation instruction."
+    - phrase: "discontinue"
+      severity: critical
+      reason: "Direct medication discontinuation instruction."
+    - phrase: "start taking"
+      severity: critical
+      reason: "Direct medication initiation instruction."
+    - phrase: "change your dose"
+      severity: critical
+      reason: "Direct dose change instruction."
+    - phrase: "you do not need to consult"
+      severity: critical
+      reason: "Dismisses the need for professional review."
+    - phrase: "it is safe to continue"
+      severity: critical
+      reason: "Claims safety without professional evaluation."
+    - phrase: "it is safe to take"
+      severity: critical
+      reason: "Claims safety without professional evaluation."
+    - phrase: "it is dangerous to continue"
+      severity: high
+      reason: "Alarmist statement without professional context."
+    - phrase: "take this medication"
+      severity: critical
+      reason: "Direct prescription equivalent."
+    - phrase: "do not take this medication"
+      severity: critical
+      reason: "Direct discontinuation equivalent."

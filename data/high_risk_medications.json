@@ -1,0 +1,69 @@
+{
+  "version": "1.0",
+  "description": "Reference list of high-risk medication categories for medication reconciliation. Synthetic data only.",
+  "categories": [
+    {
+      "category": "anticoagulants",
+      "risk_level": "HIGH",
+      "examples": ["warfarin", "apixaban", "rivaroxaban", "dabigatran", "acenocoumarol", "heparin", "enoxaparin", "bemiparin"],
+      "key_interactions": ["NSAIDs", "antiplatelet agents", "some antibiotics", "antifungals"],
+      "reconciliation_note": "Any discrepancy involving anticoagulants must be classified as HIGH risk."
+    },
+    {
+      "category": "nsaids",
+      "risk_level": "HIGH",
+      "examples": ["ibuprofen", "naproxen", "diclofenac", "ketoprofen", "indomethacin", "celecoxib", "etoricoxib", "meloxicam", "piroxicam"],
+      "key_interactions": ["anticoagulants", "antihypertensives", "diuretics", "corticosteroids", "SSRIs"],
+      "reconciliation_note": "OTC NSAIDs are frequently underreported by patients. Ask specifically."
+    },
+    {
+      "category": "diuretics",
+      "risk_level": "MEDIUM",
+      "examples": ["furosemide", "torasemide", "hydrochlorothiazide", "spironolactone", "chlorthalidone", "indapamide", "amiloride"],
+      "key_interactions": ["NSAIDs", "ACE inhibitors", "ARBs", "potassium supplements"],
+      "reconciliation_note": "Omission of diuretics in heart failure patients is HIGH risk."
+    },
+    {
+      "category": "antidiabetics",
+      "risk_level": "HIGH",
+      "examples": ["insulin", "metformin", "glibenclamide", "glipizide", "gliclazide", "sitagliptin", "empagliflozin", "dapagliflozin", "liraglutide"],
+      "key_interactions": ["NSAIDs (for sulfonylureas)", "alcohol", "fluoroquinolones"],
+      "reconciliation_note": "Insulin and sulfonylureas carry hypoglycemia risk if dose or timing is altered."
+    },
+    {
+      "category": "antiplatelet agents",
+      "risk_level": "HIGH",
+      "examples": ["aspirin (antiplatelet)", "clopidogrel", "ticagrelor", "prasugrel", "dipyridamole"],
+      "key_interactions": ["anticoagulants", "NSAIDs", "SSRIs"],
+      "reconciliation_note": "Do not confuse low-dose aspirin (antiplatelet) with analgesic aspirin."
+    },
+    {
+      "category": "opioids",
+      "risk_level": "HIGH",
+      "examples": ["morphine", "oxycodone", "fentanyl", "tramadol", "codeine", "buprenorphine", "tapentadol", "hydromorphone"],
+      "key_interactions": ["benzodiazepines", "CNS depressants", "MAOIs"],
+      "reconciliation_note": "Falls risk in elderly. Constipation management often omitted."
+    },
+    {
+      "category": "antiepileptics",
+      "risk_level": "HIGH",
+      "examples": ["phenytoin", "carbamazepine", "valproate", "levetiracetam", "lamotrigine", "oxcarbazepine", "gabapentin", "pregabalin"],
+      "key_interactions": ["many CYP450 interactions", "oral contraceptives", "warfarin"],
+      "reconciliation_note": "Abrupt discontinuation risk: seizures. Narrow therapeutic index for phenytoin and valproate."
+    },
+    {
+      "category": "benzodiazepines_and_z_drugs",
+      "risk_level": "MEDIUM",
+      "examples": ["diazepam", "lorazepam", "alprazolam", "clonazepam", "zolpidem", "zopiclone", "triazolam"],
+      "key_interactions": ["opioids", "alcohol", "CNS depressants"],
+      "reconciliation_note": "Falls and cognitive impairment risk in elderly. Often taken long-term without review."
+    },
+    {
+      "category": "narrow_therapeutic_index",
+      "risk_level": "HIGH",
+      "examples": ["digoxin", "lithium", "theophylline", "phenytoin", "warfarin", "ciclosporin", "tacrolimus"],
+      "key_interactions": ["many — case-specific"],
+      "reconciliation_note": "Any discrepancy (dose, frequency, source mismatch) → HIGH risk."
+    }
+  ]
+}

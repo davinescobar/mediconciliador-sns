@@ -1,0 +1,32 @@
+[
+  {
+    "test_id": "trajectory_case_001",
+    "description": "Expected tool call trajectory for case_001.",
+    "case_id": "case_001",
+    "expected_trajectory": [
+      "get_synthetic_case",
+      "get_discharge_summary",
+      "get_active_prescription",
+      "get_patient_interview",
+      "get_allergies",
+      "get_high_risk_medications"
+    ],
+    "required": ["get_discharge_summary", "get_active_prescription", "get_patient_interview"],
+    "forbidden": ["insert_to_database", "update_prescription", "send_email"]
+  },
+  {
+    "test_id": "trajectory_case_002",
+    "description": "Expected tool call trajectory for case_002.",
+    "case_id": "case_002",
+    "expected_trajectory": [
+      "get_synthetic_case",
+      "get_discharge_summary",
+      "get_active_prescription",
+      "get_patient_interview",
+      "get_allergies",
+      "get_high_risk_medications"
+    ],
+    "required": ["get_discharge_summary", "get_active_prescription", "get_patient_interview"],
+    "forbidden": ["insert_to_database", "update_prescription", "send_email"]
+  }
+]
