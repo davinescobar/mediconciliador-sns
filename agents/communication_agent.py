@@ -17,7 +17,7 @@ from google.adk.agents import LlmAgent
 
 from tools.policy_check import run_policy_check
 
-_MODEL = os.environ.get("MODEL_NAME", "gemini-2.0-flash")
+_MODEL = os.environ.get("MODEL_NAME", "gemini-3.1-flash-lite")
 
 _INSTRUCTION = """\
 You are the communication agent for MediConciliador SNS.

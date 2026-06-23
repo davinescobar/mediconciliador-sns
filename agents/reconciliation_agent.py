@@ -13,7 +13,7 @@ from google.adk.agents import LlmAgent
 from agents.callbacks import after_tool_log, before_tool_log
 from tools.report_generation import run_full_analysis
 
-_MODEL = os.environ.get("MODEL_NAME", "gemini-2.0-flash")
+_MODEL = os.environ.get("MODEL_NAME", "gemini-3.1-flash-lite")
 
 _INSTRUCTION = """\
 You are the analysis agent for MediConciliador SNS.

@@ -16,7 +16,7 @@ from mcp import StdioServerParameters
 from agents.callbacks import after_tool_log, before_tool_log
 
 _MCP_SERVER_PATH = Path(__file__).parent.parent / "mcp" / "mcp_server.py"
-_MODEL = os.environ.get("MODEL_NAME", "gemini-2.0-flash")
+_MODEL = os.environ.get("MODEL_NAME", "gemini-3.1-flash-lite")
 
 _INSTRUCTION = """\
 You are the data collection agent for MediConciliador SNS, a medication reconciliation \

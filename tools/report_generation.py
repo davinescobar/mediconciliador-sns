@@ -8,6 +8,8 @@ run_full_analysis            — single-call pipeline used by AnalysisAgent.
 
 import json
 
+from google.adk.tools import ToolContext
+
 from tools.medication_extraction import extract_medications, extract_discontinued
 from tools.medication_normalization import normalize_medication_list
 from tools.discrepancy_detection import detect_discrepancies
@@ -121,23 +123,35 @@ def format_reconciliation_report(
     return json.dumps(report, ensure_ascii=False, indent=2)
 
 
-def run_full_analysis(case_data_json: str) -> str:
+def _extract_json(text: str) -> dict:
+    """Extracts the first valid JSON object from text, ignoring code fences or trailing content."""
+    text = text.strip()
+    if text.startswith("```"):
+        text = text.split("\n", 1)[-1].rsplit("```", 1)[0].strip()
+    obj, _ = json.JSONDecoder().raw_decode(text)
+    return obj
+
+
+def run_full_analysis(case_data_json: str, tool_context: ToolContext | None = None) -> str:
     """
     Runs the complete deterministic medication reconciliation pipeline.
 
     Single entry point for AnalysisAgent. Extracts, normalizes, detects
     discrepancies, scores risk, and returns a structured report.
+    Writes the result directly to session state under 'analysis_results'
+    via ToolContext, bypassing LLM output formatting.
 
     Args:
         case_data_json: JSON object with keys: case_id, discharge_summary,
             active_prescription, patient_interview, risk_factors.
             Produced by DataCollectionAgent via output_key="case_data".
+        tool_context: ADK ToolContext — used to write analysis_results to state.
 
     Returns:
         JSON reconciliation report (same structure as format_reconciliation_report).
     """
     clear_trace()
-    case_data = json.loads(case_data_json)
+    case_data = _extract_json(case_data_json)
     case_id = case_data.get("case_id", "unknown")
     risk_factors = case_data.get("risk_factors", [])
 
@@ -192,9 +206,12 @@ def run_full_analysis(case_data_json: str) -> str:
     )
 
     log_tool_call("format_reconciliation_report", {"case_id": case_id})
-    return format_reconciliation_report(
+    result = format_reconciliation_report(
         case_id=case_id,
         discrepancies_json=scored,
         trace_json=json.dumps(get_trace(), ensure_ascii=False),
         reconciliation_table_json=json.dumps(recon_table, ensure_ascii=False),
     )
+    if tool_context is not None:
+        tool_context.state["analysis_results"] = result
+    return result

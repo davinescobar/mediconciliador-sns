@@ -15,7 +15,7 @@ import os
 from google.adk.agents import LlmAgent
 from google.adk.tools import google_search
 
-_MODEL = os.environ.get("MODEL_NAME", "gemini-2.0-flash")
+_MODEL = os.environ.get("MODEL_NAME", "gemini-3.1-flash-lite")
 
 _INSTRUCTION = """\
 You are a pharmacological information assistant for MediConciliador SNS, \
