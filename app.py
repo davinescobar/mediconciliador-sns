@@ -17,9 +17,31 @@ import sys
 import threading
 from pathlib import Path
 
+import io
+
 import streamlit as st
 
 sys.path.insert(0, str(Path(__file__).parent))
+
+try:
+    from pypdf import PdfReader as _PdfReader  # type: ignore[import-untyped]
+
+    def _read_pdf(data: bytes) -> str:
+        reader = _PdfReader(io.BytesIO(data))
+        return "\n".join(page.extract_text() or "" for page in reader.pages)
+
+    _PDF_SUPPORT = True
+except ImportError:
+    _PDF_SUPPORT = False
+
+
+def _file_to_text(uploaded_file) -> str:
+    if uploaded_file is None:
+        return ""
+    data = uploaded_file.read()
+    if uploaded_file.name.lower().endswith(".pdf"):
+        return _read_pdf(data) if _PDF_SUPPORT else ""
+    return data.decode("utf-8", errors="replace")
 
 from dotenv import load_dotenv  # type: ignore[import-untyped]
 
@@ -133,6 +155,147 @@ def _parse_json(raw: str) -> dict | list:
         return {}
 
 
+# ── custom case helpers ───────────────────────────────────────────────────────
+
+_DISCHARGE_SCHEMA = """{
+  "date": "YYYY-MM-DD or empty string",
+  "diagnosis": "main diagnosis or empty string",
+  "medications_at_discharge": [
+    {"name": "lowercase generic name", "dose": "e.g. 5 mg or null", "frequency": "e.g. once daily or null", "route": null, "notes": null}
+  ],
+  "medications_discontinued_at_discharge": [
+    {"name": "lowercase generic name", "reason": "reason or null"}
+  ]
+}"""
+
+_PRESCRIPTION_SCHEMA = """{
+  "date_retrieved": "YYYY-MM-DD or empty string",
+  "medications": [
+    {"name": "lowercase generic name", "dose": "e.g. 5 mg or null", "frequency": "e.g. once daily or null"}
+  ]
+}"""
+
+_INTERVIEW_SCHEMA = """{
+  "date": "YYYY-MM-DD or empty string",
+  "reported_medications": [
+    {"name": "lowercase generic name", "dose": "e.g. 5 mg or null", "frequency": null, "patient_comment": "patient own words or null"}
+  ],
+  "patient_concerns": "free text or empty string",
+  "caregiver_present": false
+}"""
+
+_EMPTY_SOURCES: dict[str, dict] = {
+    "discharge": {
+        "date": "", "diagnosis": "",
+        "medications_at_discharge": [],
+        "medications_discontinued_at_discharge": [],
+    },
+    "prescription": {"date_retrieved": "", "medications": []},
+    "interview": {
+        "date": "", "reported_medications": [],
+        "patient_concerns": "", "caregiver_present": False,
+    },
+}
+
+_SCHEMAS = {
+    "discharge": _DISCHARGE_SCHEMA,
+    "prescription": _PRESCRIPTION_SCHEMA,
+    "interview": _INTERVIEW_SCHEMA,
+}
+
+
+def _extract_source_with_llm(text: str, source_type: str) -> dict:
+    from google import genai as _genai
+
+    client = _genai.Client(api_key=os.environ.get("GOOGLE_API_KEY"))
+    prompt = (
+        "Extract structured medication data from this clinical document.\n"
+        "Return ONLY valid JSON matching this schema, nothing else:\n\n"
+        f"{_SCHEMAS[source_type]}\n\n"
+        f"Document:\n{text}"
+    )
+    response = client.models.generate_content(model="gemini-2.0-flash", contents=prompt)
+    raw = response.text.strip()
+    if raw.startswith("```"):
+        raw = raw.split("\n", 1)[1].rsplit("```", 1)[0]
+    return json.loads(raw)
+
+
+def _generate_communication_report(analysis_json: str, has_high_risk: bool) -> dict:
+    from google import genai as _genai
+    from tools.policy_check import run_policy_check
+
+    client = _genai.Client(api_key=os.environ.get("GOOGLE_API_KEY"))
+    prompt = (
+        "You are the communication agent for MediConciliador SNS.\n\n"
+        f"Analysis results:\n{analysis_json}\n\n"
+        "Generate two outputs in JSON:\n\n"
+        '1. "professional_checklist": numbered list for the clinician with each discrepancy, '
+        "risk level, and suggested verification action.\n\n"
+        '2. "patient_summary": brief explanation in Spanish for the patient/caregiver.\n'
+        '   REQUIRED phrases: "requiere revisión profesional", '
+        '"no cambie la medicación sin consultar", '
+        '"lleve esta información a su profesional sanitario"\n'
+        '   FORBIDDEN phrases: "deje de tomar", "suspenda", "empiece a tomar", '
+        '"cambie la dosis", "no necesita consultar", '
+        '"puede tomarlo sin problema", "es seguro continuar"\n\n'
+        'Output ONLY valid JSON with keys "professional_checklist" and "patient_summary". '
+        "No markdown, no explanation."
+    )
+    response = client.models.generate_content(model="gemini-2.0-flash", contents=prompt)
+    raw = response.text.strip()
+    if raw.startswith("```"):
+        raw = raw.split("\n", 1)[1].rsplit("```", 1)[0]
+    comm = json.loads(raw)
+    policy_result = json.loads(
+        run_policy_check(comm.get("patient_summary", ""), is_high_risk=has_high_risk)
+    )
+    comm["policy_check"] = policy_result
+    return comm
+
+
+def run_custom_analysis(
+    discharge_text: str,
+    prescription_text: str,
+    interview_text: str,
+    risk_factors: list[str],
+) -> dict | str:
+    try:
+        from tools.report_generation import run_full_analysis
+
+        discharge_data = (
+            _extract_source_with_llm(discharge_text, "discharge")
+            if discharge_text.strip()
+            else _EMPTY_SOURCES["discharge"]
+        )
+        prescription_data = (
+            _extract_source_with_llm(prescription_text, "prescription")
+            if prescription_text.strip()
+            else _EMPTY_SOURCES["prescription"]
+        )
+        interview_data = (
+            _extract_source_with_llm(interview_text, "interview")
+            if interview_text.strip()
+            else _EMPTY_SOURCES["interview"]
+        )
+
+        case_data = {
+            "case_id": "custom",
+            "discharge_summary": discharge_data,
+            "active_prescription": prescription_data,
+            "patient_interview": interview_data,
+            "risk_factors": risk_factors,
+        }
+
+        analysis_json = run_full_analysis(json.dumps(case_data, ensure_ascii=False))
+        analysis = json.loads(analysis_json)
+        has_high = analysis["summary"]["high_risk"] > 0
+        report = _generate_communication_report(analysis_json, has_high)
+        return {"analysis": analysis, "report": report}
+    except Exception as exc:
+        return str(exc)
+
+
 # ── page config ───────────────────────────────────────────────────────────────
 
 st.set_page_config(
@@ -154,8 +317,15 @@ gold_standard = load_gold_standard()
 
 # ── tabs ──────────────────────────────────────────────────────────────────────
 
-tab1, tab2, tab3, tab4, tab5 = st.tabs(
-    ["1 · Selección", "2 · Fuentes", "3 · Resultado", "4 · Evaluación", "5 · Búsqueda farmacológica"]
+tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(
+    [
+        "1 · Selección",
+        "2 · Fuentes",
+        "3 · Resultado",
+        "4 · Evaluación",
+        "5 · Búsqueda farmacológica",
+        "6 · Nuevo caso",
+    ]
 )
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -634,3 +804,213 @@ with tab5:
                 "Información de referencia para profesionales sanitarios. "
                 "No sustituye al criterio clínico ni a la valoración individual del paciente."
             )
+
+# ─────────────────────────────────────────────────────────────────────────────
+# TAB 6 — new case upload
+# ─────────────────────────────────────────────────────────────────────────────
+
+_RISK_FACTOR_OPTIONS: dict[str, str] = {
+    "heart_failure": "Insuficiencia cardíaca",
+    "atrial_fibrillation": "Fibrilación auricular",
+    "diabetes_type_2": "Diabetes tipo 2",
+    "chronic_kidney_disease": "Enfermedad renal crónica",
+    "hypertension": "Hipertensión arterial",
+    "copd": "EPOC",
+    "dementia": "Demencia",
+    "osteoporosis": "Osteoporosis",
+    "peripheral_arterial_disease": "Arteriopatía periférica",
+    "mechanical_heart_valve": "Prótesis valvular mecánica",
+}
+
+with tab6:
+    st.header("Nuevo caso")
+    st.caption(
+        "Sube o pega los documentos del paciente para obtener un análisis de conciliación. "
+        "El agente extrae la medicación con IA y aplica el pipeline determinístico."
+    )
+
+    # ── Patient profile ──────────────────────────────────────────────────────
+    with st.expander("Perfil del paciente", expanded=True):
+        _col_p1, _col_p2 = st.columns(2)
+        _age = _col_p1.number_input("Edad", min_value=18, max_value=120, value=75, key="nc_age")
+        _sex = _col_p2.radio("Sexo", ["Masculino", "Femenino"], key="nc_sex")
+        _risk_factors: list[str] = st.multiselect(
+            "Factores de riesgo",
+            options=list(_RISK_FACTOR_OPTIONS.keys()),
+            format_func=lambda k: _RISK_FACTOR_OPTIONS[k],
+            key="nc_risk_factors",
+        )
+
+    # ── Three document columns ───────────────────────────────────────────────
+    _accept = ["txt", "pdf"] if _PDF_SUPPORT else ["txt"]
+    _col_d1, _col_d2, _col_d3 = st.columns(3)
+
+    with _col_d1:
+        st.subheader("Informe de alta")
+        _discharge_file = st.file_uploader(
+            "Subir archivo",
+            type=_accept,
+            key="nc_discharge_file",
+            help="Informe de alta hospitalaria en .txt o .pdf",
+        )
+        _discharge_text = st.text_area(
+            "O pega el texto aquí",
+            height=220,
+            placeholder="Diagnóstico: fibrilación auricular\nMedicación al alta:\n- Apixabán 5 mg/12h\n- Furosemida 40 mg/24h",
+            key="nc_discharge_text",
+        )
+
+    with _col_d2:
+        st.subheader("Receta activa")
+        _prescription_file = st.file_uploader(
+            "Subir archivo",
+            type=_accept,
+            key="nc_prescription_file",
+            help="Receta electrónica activa en .txt o .pdf",
+        )
+        _prescription_text = st.text_area(
+            "O pega el texto aquí",
+            height=220,
+            placeholder="Medicamentos en receta:\n- Apixabán 5 mg/12h\n- Omeprazol 20 mg/24h",
+            key="nc_prescription_text",
+        )
+
+    with _col_d3:
+        st.subheader("Entrevista al paciente")
+        st.caption("Opcional — puede dejarse en blanco")
+        _interview_file = st.file_uploader(
+            "Subir archivo",
+            type=_accept,
+            key="nc_interview_file",
+            help="Notas de la entrevista farmacéutica en .txt o .pdf",
+        )
+        _interview_text = st.text_area(
+            "O pega el texto aquí",
+            height=220,
+            placeholder="El paciente refiere que toma ibuprofeno del botiquín para el dolor...",
+            key="nc_interview_text",
+        )
+
+    # Resolve text: file takes priority over text area
+    _discharge_src = _file_to_text(_discharge_file) or _discharge_text
+    _prescription_src = _file_to_text(_prescription_file) or _prescription_text
+    _interview_src = _file_to_text(_interview_file) or _interview_text
+
+    st.divider()
+
+    _nc_api_ok = bool(os.environ.get("GOOGLE_API_KEY"))
+    if not _nc_api_ok:
+        st.error(
+            "GOOGLE_API_KEY no configurada. "
+            "Necesaria para la extracción de medicación con IA."
+        )
+
+    _nc_can_run = _nc_api_ok and bool(_discharge_src.strip() or _prescription_src.strip())
+
+    if st.button(
+        "Extraer y analizar",
+        type="primary",
+        disabled=not _nc_can_run,
+        key="nc_analyze_btn",
+    ):
+        with st.spinner(
+            "Extrayendo medicación con IA · ejecutando pipeline de conciliación…"
+        ):
+            _nc_result = run_custom_analysis(
+                _discharge_src,
+                _prescription_src,
+                _interview_src,
+                _risk_factors,
+            )
+
+        if isinstance(_nc_result, str):
+            st.session_state["nc_error"] = _nc_result
+            st.session_state.pop("nc_result", None)
+        else:
+            st.session_state["nc_result"] = _nc_result
+            st.session_state.pop("nc_error", None)
+            st.success("Análisis completado.")
+
+    if "nc_error" in st.session_state:
+        st.error(f"Error del agente: {st.session_state['nc_error']}")
+
+    if "nc_result" in st.session_state:
+        _ncr = st.session_state["nc_result"]
+        _nc_analysis = _ncr["analysis"]
+        _nc_report = _ncr["report"]
+
+        st.divider()
+        st.subheader("Resultados")
+
+        # Summary metrics
+        _nc_summary = _nc_analysis.get("summary", {})
+        _m1, _m2, _m3, _m4 = st.columns(4)
+        _m1.metric("Total discrepancias", _nc_summary.get("total_discrepancies", 0))
+        _m2.metric("🔴 HIGH", _nc_summary.get("high_risk", 0))
+        _m3.metric("🟡 MEDIUM", _nc_summary.get("medium_risk", 0))
+        _m4.metric("🟢 LOW", _nc_summary.get("low_risk", 0))
+
+        if _nc_analysis.get("requires_professional_review"):
+            st.warning("Requiere revisión profesional.", icon="⚠️")
+        else:
+            st.success("Sin discrepancias de riesgo alto o medio.", icon="✅")
+
+        # Reconciliation table
+        _nc_recon = _nc_analysis.get("reconciliation_table", [])
+        if _nc_recon:
+            st.subheader("Tabla de conciliación")
+            _nc_col_labels = {
+                "medication": "Medicamento",
+                "discharge_summary": "Alta",
+                "active_prescription": "Receta",
+                "patient_interview": "Entrevista",
+                "discrepancy_type": "Discrepancia",
+                "risk_level": "Riesgo",
+            }
+            st.dataframe(
+                [{_nc_col_labels.get(k, k): (v if v is not None else "—") for k, v in row.items()} for row in _nc_recon],
+                use_container_width=True,
+                hide_index=True,
+            )
+
+        # Discrepancies
+        st.subheader("Discrepancias detectadas")
+        _nc_discs = _nc_analysis.get("discrepancies", [])
+        if _nc_discs:
+            for _nd in _nc_discs:
+                _nr = _nd.get("risk_level", "?")
+                with st.expander(
+                    f"{RISK_ICON.get(_nr, '⚪')} **{_nd.get('medication', '?')}** — {_nd.get('type', '?')} · {_nr}"
+                ):
+                    st.markdown(_nd.get("rationale", ""))
+        else:
+            st.info("No se detectaron discrepancias.")
+
+        # Professional checklist + patient summary
+        st.subheader("Checklist profesional")
+        st.text_area(
+            "Para el médico o enfermero",
+            value=_nc_report.get("professional_checklist", ""),
+            height=200,
+            disabled=True,
+            key="nc_checklist",
+        )
+
+        st.subheader("Resumen para el paciente")
+        _nc_policy = _nc_report.get("policy_check", {})
+        if isinstance(_nc_policy, dict) and _nc_policy.get("passed"):
+            st.success("Policy check: aprobado", icon="✅")
+        else:
+            st.error("Policy check: rechazado", icon="🚫")
+
+        st.text_area(
+            "Texto aprobado por el servidor de políticas",
+            value=_nc_report.get("patient_summary", ""),
+            height=150,
+            disabled=True,
+            key="nc_patient_summary",
+        )
+
+        if isinstance(_nc_policy, dict) and _nc_policy:
+            with st.expander("Detalle del policy check"):
+                st.json(_nc_policy)
