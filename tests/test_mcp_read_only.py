@@ -201,9 +201,9 @@ class TestRiskFactors:
 # — High-risk medications ————————————————————————————————————————————————
 
 class TestHighRiskMedications:
-    def test_returns_all_9_categories(self, server):
+    def test_returns_all_categories(self, server):
         cats = server._fetch_high_risk_medications()
-        assert len(cats) == 9
+        assert len(cats) >= 20
 
     def test_anticoagulants_high_risk(self, server):
         cats = {c["category"]: c for c in server._fetch_high_risk_medications()}

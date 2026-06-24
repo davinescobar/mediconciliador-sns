@@ -1,69 +1,146 @@
 {
-  "version": "1.0",
-  "description": "Reference list of high-risk medication categories for medication reconciliation. Synthetic data only.",
+  "version": "2.0",
+  "description": "Reference list of high-risk medication categories for medication reconciliation. Based on ISMP high-alert medications and STOPP/START criteria for elderly patients. Synthetic data only.",
   "categories": [
     {
       "category": "anticoagulants",
       "risk_level": "HIGH",
-      "examples": ["warfarin", "apixaban", "rivaroxaban", "dabigatran", "acenocoumarol", "heparin", "enoxaparin", "bemiparin"],
-      "key_interactions": ["NSAIDs", "antiplatelet agents", "some antibiotics", "antifungals"],
-      "reconciliation_note": "Any discrepancy involving anticoagulants must be classified as HIGH risk."
+      "examples": ["warfarin", "acenocoumarol", "apixaban", "rivaroxaban", "dabigatran", "edoxaban", "heparin", "enoxaparin", "bemiparin", "tinzaparin", "fondaparinux"],
+      "key_interactions": ["NSAIDs", "antiplatelet agents", "SSRIs", "azole antifungals", "fluoroquinolones", "macrolide antibiotics"],
+      "reconciliation_note": "Any discrepancy involving anticoagulants must be classified as HIGH risk. INR monitoring required for vitamin K antagonists."
     },
     {
       "category": "nsaids",
       "risk_level": "HIGH",
-      "examples": ["ibuprofen", "naproxen", "diclofenac", "ketoprofen", "indomethacin", "celecoxib", "etoricoxib", "meloxicam", "piroxicam"],
-      "key_interactions": ["anticoagulants", "antihypertensives", "diuretics", "corticosteroids", "SSRIs"],
-      "reconciliation_note": "OTC NSAIDs are frequently underreported by patients. Ask specifically."
+      "examples": ["ibuprofen", "naproxen", "diclofenac", "ketoprofen", "indomethacin", "celecoxib", "etoricoxib", "meloxicam", "piroxicam", "aceclofenac", "dexketoprofen", "lornoxicam", "ketorolac"],
+      "key_interactions": ["anticoagulants", "antiplatelet agents", "antihypertensives", "diuretics", "corticosteroids", "SSRIs", "ACE inhibitors", "lithium"],
+      "reconciliation_note": "OTC NSAIDs are frequently underreported by patients. Ask specifically about ibuprofen bought without prescription."
     },
     {
       "category": "diuretics",
       "risk_level": "MEDIUM",
-      "examples": ["furosemide", "torasemide", "hydrochlorothiazide", "spironolactone", "chlorthalidone", "indapamide", "amiloride"],
-      "key_interactions": ["NSAIDs", "ACE inhibitors", "ARBs", "potassium supplements"],
-      "reconciliation_note": "Omission of diuretics in heart failure patients is HIGH risk."
+      "examples": ["furosemide", "torasemide", "hydrochlorothiazide", "spironolactone", "chlorthalidone", "indapamide", "amiloride", "triamterene", "metolazone", "acetazolamide"],
+      "key_interactions": ["NSAIDs", "ACE inhibitors", "ARBs", "potassium supplements", "lithium", "digoxin"],
+      "reconciliation_note": "Omission of diuretics in heart failure patients is HIGH risk. NSAIDs reduce diuretic effect and increase nephrotoxicity."
     },
     {
       "category": "antidiabetics",
       "risk_level": "HIGH",
-      "examples": ["insulin", "metformin", "glibenclamide", "glipizide", "gliclazide", "sitagliptin", "empagliflozin", "dapagliflozin", "liraglutide"],
-      "key_interactions": ["NSAIDs (for sulfonylureas)", "alcohol", "fluoroquinolones"],
-      "reconciliation_note": "Insulin and sulfonylureas carry hypoglycemia risk if dose or timing is altered."
+      "examples": ["insulin", "insulin glargine", "insulin detemir", "insulin aspart", "insulin lispro", "metformin", "glibenclamide", "glipizide", "gliclazide", "glimepiride", "sitagliptin", "vildagliptin", "saxagliptin", "empagliflozin", "dapagliflozin", "canagliflozin", "liraglutide", "dulaglutide", "semaglutide", "exenatide", "pioglitazone"],
+      "key_interactions": ["NSAIDs (sulfonylureas)", "fluoroquinolones", "corticosteroids", "beta blockers (masks hypoglycemia)", "alcohol"],
+      "reconciliation_note": "Insulin and sulfonylureas carry hypoglycemia risk if dose or timing is altered. Metformin requires renal function monitoring."
     },
     {
       "category": "antiplatelet agents",
       "risk_level": "HIGH",
-      "examples": ["aspirin (antiplatelet)", "clopidogrel", "ticagrelor", "prasugrel", "dipyridamole"],
-      "key_interactions": ["anticoagulants", "NSAIDs", "SSRIs"],
-      "reconciliation_note": "Do not confuse low-dose aspirin (antiplatelet) with analgesic aspirin."
+      "examples": ["aspirin", "clopidogrel", "ticagrelor", "prasugrel", "dipyridamole", "cilostazol", "ticlopidine", "vorapaxar"],
+      "key_interactions": ["anticoagulants", "NSAIDs", "SSRIs", "proton pump inhibitors (clopidogrel CYP2C19)"],
+      "reconciliation_note": "Do not confuse low-dose aspirin (antiplatelet) with analgesic aspirin dose. Clopidogrel efficacy reduced by PPIs metabolized via CYP2C19."
     },
     {
       "category": "opioids",
       "risk_level": "HIGH",
-      "examples": ["morphine", "oxycodone", "fentanyl", "tramadol", "codeine", "buprenorphine", "tapentadol", "hydromorphone"],
-      "key_interactions": ["benzodiazepines", "CNS depressants", "MAOIs"],
-      "reconciliation_note": "Falls risk in elderly. Constipation management often omitted."
+      "examples": ["morphine", "oxycodone", "fentanyl", "tramadol", "codeine", "buprenorphine", "tapentadol", "hydromorphone", "methadone", "pethidine", "oxymorphone", "nalbuphine"],
+      "key_interactions": ["benzodiazepines", "CNS depressants", "MAOIs", "SSRIs (serotonin syndrome with tramadol)", "muscle relaxants", "antipsychotics"],
+      "reconciliation_note": "Falls risk and respiratory depression in elderly. Constipation management (laxative) often omitted at discharge."
     },
     {
       "category": "antiepileptics",
       "risk_level": "HIGH",
-      "examples": ["phenytoin", "carbamazepine", "valproate", "levetiracetam", "lamotrigine", "oxcarbazepine", "gabapentin", "pregabalin"],
-      "key_interactions": ["many CYP450 interactions", "oral contraceptives", "warfarin"],
-      "reconciliation_note": "Abrupt discontinuation risk: seizures. Narrow therapeutic index for phenytoin and valproate."
+      "examples": ["phenytoin", "carbamazepine", "valproate", "valproic acid", "levetiracetam", "lamotrigine", "oxcarbazepine", "gabapentin", "pregabalin", "topiramate", "zonisamide", "lacosamide", "perampanel", "brivaracetam"],
+      "key_interactions": ["CYP450 inducers and inhibitors", "oral contraceptives", "warfarin", "methotrexate", "lithium"],
+      "reconciliation_note": "Abrupt discontinuation risk: seizures. Phenytoin and valproate have narrow therapeutic index and require level monitoring."
     },
     {
       "category": "benzodiazepines_and_z_drugs",
       "risk_level": "MEDIUM",
-      "examples": ["diazepam", "lorazepam", "alprazolam", "clonazepam", "zolpidem", "zopiclone", "triazolam"],
-      "key_interactions": ["opioids", "alcohol", "CNS depressants"],
-      "reconciliation_note": "Falls and cognitive impairment risk in elderly. Often taken long-term without review."
+      "examples": ["diazepam", "lorazepam", "alprazolam", "clonazepam", "clorazepate", "bromazepam", "clobazam", "zolpidem", "zopiclone", "zaleplon", "temazepam", "triazolam"],
+      "key_interactions": ["opioids", "alcohol", "CNS depressants", "antihistamines", "antipsychotics"],
+      "reconciliation_note": "Falls and cognitive impairment risk in elderly (STOPP criterion). Often taken long-term without review."
     },
     {
       "category": "narrow_therapeutic_index",
       "risk_level": "HIGH",
-      "examples": ["digoxin", "lithium", "theophylline", "phenytoin", "warfarin", "ciclosporin", "tacrolimus"],
-      "key_interactions": ["many — case-specific"],
-      "reconciliation_note": "Any discrepancy (dose, frequency, source mismatch) → HIGH risk."
+      "examples": ["digoxin", "lithium", "theophylline", "phenytoin", "warfarin", "ciclosporin", "tacrolimus", "sirolimus", "everolimus", "methotrexate", "clozapine", "aminoglycosides"],
+      "key_interactions": ["many — always case-specific; check current drug interactions"],
+      "reconciliation_note": "Any discrepancy (dose, frequency, source mismatch, omission) must be classified HIGH risk regardless of drug category."
+    },
+    {
+      "category": "ace_inhibitors_arbs",
+      "risk_level": "MEDIUM",
+      "examples": ["captopril", "enalapril", "ramipril", "lisinopril", "perindopril", "quinapril", "fosinopril", "trandolapril", "benazepril", "losartan", "valsartan", "irbesartan", "candesartan", "olmesartan", "telmisartan", "eprosartan", "sacubitril/valsartan"],
+      "key_interactions": ["NSAIDs", "potassium supplements", "potassium-sparing diuretics", "spironolactone", "tacrolimus", "ciclosporin"],
+      "reconciliation_note": "Triple whammy risk (ACE inhibitor + diuretic + NSAID) causes acute kidney injury. Monitor potassium — hyperkalemia risk with spironolactone."
+    },
+    {
+      "category": "beta_blockers",
+      "risk_level": "MEDIUM",
+      "examples": ["atenolol", "bisoprolol", "carvedilol", "metoprolol", "propranolol", "nebivolol", "celiprolol", "labetalol", "sotalol", "acebutolol", "nadolol"],
+      "key_interactions": ["NSAIDs (reduces antihypertensive effect)", "calcium channel blockers (verapamil, diltiazem)", "antidiabetics (masks hypoglycemia symptoms)", "digoxin"],
+      "reconciliation_note": "Abrupt withdrawal causes rebound hypertension and angina. Non-selective beta-blockers mask hypoglycemia in diabetic patients."
+    },
+    {
+      "category": "statins",
+      "risk_level": "MEDIUM",
+      "examples": ["atorvastatin", "simvastatin", "rosuvastatin", "pravastatin", "fluvastatin", "lovastatin", "pitavastatin"],
+      "key_interactions": ["azole antifungals (CYP3A4)", "macrolide antibiotics (CYP3A4)", "fibrates (gemfibrozil)", "ciclosporin", "amiodarone"],
+      "reconciliation_note": "Myopathy and rhabdomyolysis risk when combined with CYP3A4 inhibitors. Simvastatin has highest interaction risk among statins."
+    },
+    {
+      "category": "ssri_snri_antidepressants",
+      "risk_level": "MEDIUM",
+      "examples": ["fluoxetine", "sertraline", "paroxetine", "citalopram", "escitalopram", "fluvoxamine", "venlafaxine", "duloxetine", "desvenlafaxine", "milnacipran", "mirtazapine", "trazodone", "vortioxetine"],
+      "key_interactions": ["NSAIDs (GI bleeding risk)", "anticoagulants (bleeding)", "MAOIs (serotonin syndrome)", "tramadol (serotonin syndrome)", "linezolid"],
+      "reconciliation_note": "NSAIDs + SSRI combination increases GI bleeding risk 3x. Citalopram and escitalopram prolong QT interval at higher doses."
+    },
+    {
+      "category": "calcium_channel_blockers",
+      "risk_level": "MEDIUM",
+      "examples": ["amlodipine", "nifedipine", "felodipine", "lercanidipine", "lacidipine", "nitrendipine", "diltiazem", "verapamil", "nicardipine", "nimodipine", "clevidipine"],
+      "key_interactions": ["CYP3A4 inhibitors (azoles, macrolides)", "simvastatin (myopathy)", "beta blockers (verapamil and diltiazem)", "cyclosporine", "digoxin"],
+      "reconciliation_note": "Verapamil and diltiazem are non-dihydropyridines: they slow heart rate and can cause heart block with beta-blockers."
+    },
+    {
+      "category": "corticosteroids",
+      "risk_level": "MEDIUM",
+      "examples": ["prednisone", "prednisolone", "dexamethasone", "methylprednisolone", "hydrocortisone", "triamcinolone", "betamethasone", "budesonide", "deflazacort", "fludrocortisone"],
+      "key_interactions": ["NSAIDs (GI bleeding)", "antidiabetics (hyperglycemia)", "anticoagulants", "fluoroquinolones (tendon rupture)", "vaccines (live)"],
+      "reconciliation_note": "Increases blood glucose — adjust antidiabetic doses. Abrupt discontinuation after long-term use causes adrenal crisis."
+    },
+    {
+      "category": "azole_antifungals",
+      "risk_level": "HIGH",
+      "examples": ["fluconazole", "itraconazole", "voriconazole", "posaconazole", "isavuconazole", "ketoconazole", "miconazole"],
+      "key_interactions": ["warfarin (CYP2C9)", "statins (CYP3A4)", "benzodiazepines", "antidiabetics", "ciclosporin", "tacrolimus", "QT-prolonging drugs"],
+      "reconciliation_note": "Potent CYP3A4 inhibitors: dramatically increase plasma levels of many co-medications. Fluconazole also inhibits CYP2C9 — warfarin INR can double."
+    },
+    {
+      "category": "antipsychotics",
+      "risk_level": "MEDIUM",
+      "examples": ["haloperidol", "olanzapine", "quetiapine", "risperidone", "aripiprazole", "clozapine", "amisulpride", "ziprasidone", "paliperidone", "lurasidone", "chlorpromazine", "levomepromazine"],
+      "key_interactions": ["QT-prolonging drugs", "CNS depressants", "antiparkinson drugs", "lithium"],
+      "reconciliation_note": "QT prolongation risk. Falls risk in elderly (STOPP criterion). Clozapine requires WBC monitoring — do not omit without specialist review."
+    },
+    {
+      "category": "fluoroquinolone_antibiotics",
+      "risk_level": "MEDIUM",
+      "examples": ["ciprofloxacin", "levofloxacin", "moxifloxacin", "norfloxacin", "ofloxacin", "delafloxacin"],
+      "key_interactions": ["warfarin (CYP1A2 — INR increase)", "antidiabetics (hypoglycemia/hyperglycemia)", "antacids/calcium/iron (absorption)", "QT-prolonging drugs", "corticosteroids (tendon rupture)"],
+      "reconciliation_note": "Ciprofloxacin inhibits CYP1A2 — increases warfarin levels significantly. Short courses can still cause clinically significant INR rise."
+    },
+    {
+      "category": "proton_pump_inhibitors",
+      "risk_level": "LOW",
+      "examples": ["omeprazole", "pantoprazole", "lansoprazole", "esomeprazole", "rabeprazole", "dexlansoprazole"],
+      "key_interactions": ["clopidogrel (CYP2C19 — reduced antiplatelet effect)", "methotrexate", "some antiretrovirals"],
+      "reconciliation_note": "Brand/generic duplication is common (patient buys OTC PPI while having prescription). Omeprazole and esomeprazole reduce clopidogrel efficacy via CYP2C19 inhibition."
+    },
+    {
+      "category": "potassium_supplements_and_sparing",
+      "risk_level": "MEDIUM",
+      "examples": ["potassium chloride", "spironolactone", "eplerenone", "amiloride", "triamterene"],
+      "key_interactions": ["ACE inhibitors", "ARBs", "NSAIDs", "trimethoprim", "heparin"],
+      "reconciliation_note": "Hyperkalemia risk — especially dangerous in patients on ACE inhibitors or ARBs. Monitor potassium levels."
     }
   ]
 }
