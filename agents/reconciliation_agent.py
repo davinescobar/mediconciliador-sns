@@ -9,11 +9,19 @@ the analysis report in session state under 'analysis_results'.
 import os
 
 from google.adk.agents import LlmAgent
+from google.genai import types
 
 from agents.callbacks import after_tool_log, before_tool_log
 from tools.report_generation import run_full_analysis
 
 _MODEL = os.environ.get("MODEL_NAME", "gemini-3.1-flash-lite")
+
+# ADK Day 2b: HttpRetryOptions prevents a transient 429/503 from killing the pipeline mid-demo
+_GENERATE_CONFIG = types.GenerateContentConfig(
+    http_options=types.HttpOptions(
+        retry_options=types.HttpRetryOptions(attempts=5, initial_delay=1.0, exp_base=2.0)
+    )
+)
 
 _INSTRUCTION = """\
 You are the analysis agent for MediConciliador SNS.
@@ -40,4 +48,5 @@ def create_analysis_agent() -> LlmAgent:
         output_key="analysis_results",
         before_tool_callback=before_tool_log,
         after_tool_callback=after_tool_log,
+        generate_content_config=_GENERATE_CONFIG,
     )

@@ -14,10 +14,18 @@ Output is stored in session state under 'reconciliation_report'.
 import os
 
 from google.adk.agents import LlmAgent
+from google.genai import types
 
 from tools.policy_check import run_policy_check
 
 _MODEL = os.environ.get("MODEL_NAME", "gemini-3.1-flash-lite")
+
+# ADK Day 2b: HttpRetryOptions prevents a transient 429/503 from killing the pipeline mid-demo
+_GENERATE_CONFIG = types.GenerateContentConfig(
+    http_options=types.HttpOptions(
+        retry_options=types.HttpRetryOptions(attempts=5, initial_delay=1.0, exp_base=2.0)
+    )
+)
 
 _INSTRUCTION = """\
 You are the communication agent for MediConciliador SNS.
@@ -81,4 +89,5 @@ def create_communication_agent() -> LlmAgent:
         instruction=_INSTRUCTION,
         tools=[run_policy_check],
         output_key="reconciliation_report",
+        generate_content_config=_GENERATE_CONFIG,
     )

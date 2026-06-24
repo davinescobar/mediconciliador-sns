@@ -11,12 +11,20 @@ from pathlib import Path
 
 from google.adk.agents import LlmAgent
 from google.adk.tools.mcp_tool.mcp_toolset import McpToolset
+from google.genai import types
 from mcp import StdioServerParameters
 
 from agents.callbacks import after_tool_log, before_tool_log
 
 _MCP_SERVER_PATH = Path(__file__).parent.parent / "mcp" / "mcp_server.py"
 _MODEL = os.environ.get("MODEL_NAME", "gemini-3.1-flash-lite")
+
+# ADK Day 2b: HttpRetryOptions prevents a transient 429/503 from killing the pipeline mid-demo
+_GENERATE_CONFIG = types.GenerateContentConfig(
+    http_options=types.HttpOptions(
+        retry_options=types.HttpRetryOptions(attempts=5, initial_delay=1.0, exp_base=2.0)
+    )
+)
 
 _INSTRUCTION = """\
 You are the data collection agent for MediConciliador SNS, a medication reconciliation \
@@ -62,4 +70,5 @@ def create_data_collection_agent() -> LlmAgent:
         output_key="case_data",
         before_tool_callback=before_tool_log,
         after_tool_callback=after_tool_log,
+        generate_content_config=_GENERATE_CONFIG,
     )
