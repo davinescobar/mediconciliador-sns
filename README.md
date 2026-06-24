@@ -22,6 +22,22 @@ Uses synthetic data only. No real patient data. No prescribing.
 
 ---
 
+## Why it matters
+
+Medication reconciliation failures at hospital discharge are one of healthcare's most preventable sources of harm:
+
+- The **WHO** estimates medication errors cost **$42 billion per year** globally — nearly 1% of total health expenditure ([Medication Without Harm](https://www.who.int/initiatives/medication-without-harm)).
+- The **OECD** estimates **1 in 10 hospitalizations** in member countries may be caused by medication-related harm, with avoidable costs exceeding **$54 billion per year** ([OECD, 2022](https://www.oecd.org/en/publications/2022/09/the-economics-of-medication-safety_e79d5329.html)).
+- In **Spain**, the ENEAS national study found **37.4% of all hospital adverse events** were medication-related — and **42.8%** were preventable.
+- Spanish Ministry of Health data report reconciliation errors reaching **63% of patients at hospital discharge** in high-risk populations.
+- **29.7%** of people over 65 in Spain are chronically polymedicated; the figure reaches **44.7%** among those aged 85–94.
+- Systematic reviews find approximately **1 in 2 older patients** experiences a medication error in the weeks after discharge, with omissions — a drug simply missing from the new prescription — accounting for nearly half of all discrepancies.
+- In the **United States**, the Institute of Medicine (now National Academy of Medicine) estimated **1.5 million preventable adverse drug events per year**. The Joint Commission has made medication reconciliation a **National Patient Safety Goal since 2005**. Drug interaction checking uses the **NLM RxNorm** database — the US National Library of Medicine's standard drug terminology, used here via its free public REST API.
+
+The critical window is the transition home: new drugs added, others discontinued, prescriptions not yet updated, and patients who may not understand which version of their regimen is the right one. MediConciliador SNS automates the comparison of the three sources that together reveal these gaps.
+
+---
+
 ## Kaggle capstone requirements
 
 | Requirement | Implementation |
@@ -29,7 +45,7 @@ Uses synthetic data only. No real patient data. No prescribing.
 | ADK multi-agent system | `SequentialAgent` → `DataCollectionAgent` → `AnalysisAgent` → `CommunicationAgent` |
 | MCP Server | `mcp/mcp_server.py` — read-only FastMCP server backed by SQLite |
 | Agent Skill | `.agent/skills/medication-reconciliation/SKILL.md` |
-| Security features | `policy/policy_server.py` — forbidden phrase detection + required disclaimer enforcement |
+| Security features | `policy/policy_server.py` — forbidden phrase detection + required disclaimer enforcement; `tools/input_sanitizer.py` — prompt injection detection for user-uploaded documents |
 | Deployable app | `streamlit run app.py` — 5-tab Streamlit UI |
 | Antigravity workflow | Spec-driven development with skills, `.agents/AGENTS.md`, `specs/` |
 
@@ -119,6 +135,8 @@ tools/
   discrepancy_detection.py   Rules-based discrepancy detection
   risk_scoring.py            Rules-based risk scoring (LOW/MEDIUM/HIGH)
   report_generation.py       Full pipeline + run_full_analysis tool
+  drug_interactions.py       NLM RxNorm API + static fallback for interaction checking
+  input_sanitizer.py         Prompt injection detection for user-uploaded documents
   policy_check.py            run_policy_check ADK tool wrapper
   trace_logger.py            Tool call trace for observability
 

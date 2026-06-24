@@ -1,0 +1,31 @@
+================================================================================
+PRIMARY CARE ACTIVE PRESCRIPTION RECORD
+[SYNTHETIC / DEMO DATA — NOT REAL PATIENT INFORMATION]
+================================================================================
+
+Primary Care Center:    Centro de Salud Demo #4 — San Rafael
+General Practitioner:   Dr. J. Martinez
+Date retrieved:         20 November 2024
+Patient:                Maria G.T., DOB 1940-03-15 (SYNTHETIC)
+Patient ID:             DEMO-001
+
+--------------------------------------------------------------------------------
+ACTIVE PRESCRIPTIONS ON FILE
+--------------------------------------------------------------------------------
+
+  Drug name          Dose      Route    Frequency              Status
+  ─────────────────────────────────────────────────────────────────────────────
+  Apixaban           5 mg      Oral     Twice daily            Active
+  Bisoprolol         2.5 mg    Oral     Once daily (morning)   Active
+  Omeprazole         20 mg     Oral     Once daily             Active
+
+--------------------------------------------------------------------------------
+NOTES
+--------------------------------------------------------------------------------
+Record updated following hospital discharge on 15/11/2024.
+Previous prescription for ibuprofen 600 mg has been removed from the active
+list as instructed by Cardiology.
+
+--------------------------------------------------------------------------------
+[SYNTHETIC DOCUMENT — FOR DEMO PURPOSES ONLY]
+================================================================================

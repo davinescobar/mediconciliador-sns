@@ -1,7 +1,8 @@
 # Demo Script — MediConciliador SNS (Kaggle Capstone)
 
-**Target duration:** 2:30 – 3:00 min  
+**Target duration:** 3:30 – 4:30 min (max 5:00 — YouTube required)  
 **Language:** English  
+**Platform:** YouTube (Kaggle requirement — Loom does not qualify)  
 **Format:** Screen recording + narration (no face cam required)  
 **Resolution:** 1080p minimum
 
@@ -25,21 +26,23 @@ streamlit run app.py
 ```
 
 Confirm in browser before recording:
-- [ ] Dropdown shows case_001, case_002, case_003
+- [ ] Dropdown shows case_001 through case_010 (10 synthetic cases)
 - [ ] "Run medication reconciliation" button is visible
 - [ ] No error banners on screen
 - [ ] Browser tab title reads "MediConciliador SNS"
+- [ ] Tab 5 (Drug Search) loads and accepts queries
 
 Have open in separate terminals (for the project structure shot):
 ```
 mediconciliador-sns/
-├── agents/       ← orchestrator + subagents
-├── mcp/          ← MCP server (read-only, SQLite)
+├── agents/       ← orchestrator + 8 LlmAgent subagents
+├── mcp/          ← MCP server (read-only, SQLite, 9 tools)
 ├── tools/        ← deterministic pipeline tools
 ├── policy/       ← Policy Server + guardrails
-├── evals/        ← evaluation runner
-├── tests/        ← 116 pytest tests
-└── app.py        ← Streamlit UI
+├── .agent/       ← Agent Skill (SKILL.md)
+├── evals/        ← evaluation runner (36 checks)
+├── tests/        ← 131 pytest tests
+└── app.py        ← Streamlit UI (6 tabs)
 ```
 
 ---
@@ -51,9 +54,11 @@ mediconciliador-sns/
 **Screen:** Slide or blank background. Optional: show a simple diagram of 3 document icons (discharge / prescription / patient).
 
 **Narration:**
-> "After hospital discharge, older patients often receive three separate medication lists — one from the hospital, one from their GP, and what they report taking themselves. These lists don't always match. That mismatch is called a medication discrepancy, and it's one of the leading causes of preventable harm in elderly care."
+> "After hospital discharge, older patients often receive three separate medication lists — one from the hospital, one from their primary care physician, and what they report taking themselves. These lists don't always match. That mismatch is called a medication discrepancy, and it's one of the leading causes of preventable harm in elderly care."
 
-> "MediConciliador SNS is a multi-agent AI system that compares all three sources, detects discrepancies, classifies risk, and generates safe outputs for professional review."
+> "The scale of this problem is significant: the WHO estimates medication errors cost 42 billion dollars a year globally. The OECD estimates 1 in 10 hospitalizations may be caused by medication-related harm. In the United States, the Institute of Medicine estimated 1.5 million preventable adverse drug events every year — and the Joint Commission has made medication reconciliation a National Patient Safety Goal since 2005. This is a universal problem."
+
+> "MediConciliador SNS is a multi-agent AI system that compares all three sources, detects discrepancies, classifies risk, and generates safe outputs for professional review. It uses the NLM RxNorm database — the US National Library of Medicine's standard drug terminology — so the interaction checking works across both US and international drug names."
 
 ---
 
@@ -62,7 +67,7 @@ mediconciliador-sns/
 **Screen:** Show the terminal with the project tree (run `tree -L 2 --dirsfirst` or use a pre-made slide).
 
 **Narration:**
-> "The system is built on Google's Agent Development Kit. A SequentialAgent orchestrator coordinates three specialized LLM agents: one that loads clinical data via an MCP server, one that runs the analysis pipeline, and one that generates professional and patient-facing outputs."
+> "The system is built on Google's Agent Development Kit. A SequentialAgent orchestrator coordinates eight specialized LLM agents — from parsing discharge summaries and normalizing medication names, to risk triage and communication — plus a dedicated drug search agent powered by Gemini's grounding tools."
 
 > "All data is synthetic. The MCP server is read-only. The agent does not write to any database."
 
@@ -126,20 +131,33 @@ mediconciliador-sns/
 
 ---
 
-### [2:10 – 2:30] Part 4 — Safety and course concepts
+### [2:10 – 2:35] Part 4 — Safety and evaluation
 
-**Screen:** Evaluation tab in the app, or switch to terminal and run `python evals/run_evals.py`.
+**Screen:** Evaluation tab in the app.
 
 **Narration:**
-> "The evaluation runner validates the full pipeline against a gold standard — 15 checks total. Discrepancy recall 100%. Risk classification 100%. Safety policy 6/6."
+> "The evaluation runner validates the full pipeline against a gold standard — 36 checks: 10 end-to-end pipeline evals and 6 safety policy checks. Discrepancy recall 100%. Risk classification 100%. Safety policy 6/6."
 
-*Action: Show the terminal output (or the Evaluation tab if it shows the same data).*
+*Action: Show the Evaluation tab or run `python evals/run_evals.py` in terminal.*
 
-> "The Policy Server blocks prescriptive language in every patient output. It runs on every reconciliation, not just when the LLM is called."
+> "The Policy Server blocks prescriptive language in every patient output. It runs as a mandatory tool call — the agent is instructed to retry until the check passes."
 
 ---
 
-### [2:30 – 2:50] Part 5 — Course concepts
+### [2:35 – 2:55] Part 4b — Drug search (Tab 5)
+
+**Screen:** Click Tab 5 "Drug Search" in the Streamlit app.
+
+**Narration:**
+> "Tab 5 uses a separate agent with Gemini's Google Search grounding to look up pharmacological information. Ask it about apixaban interactions."
+
+*Action: Type "apixaban interaction with NSAIDs" in the search box and run. Show the grounded response.*
+
+> "This is the same grounding tool from the Day 2 notebook — live web retrieval, cited sources."
+
+---
+
+### [2:55 – 3:15] Part 5 — Course concepts
 
 **Screen:** Show `README.md` or a pre-made summary slide.
 
@@ -149,17 +167,17 @@ mediconciliador-sns/
 *Action: Read or point to each row:*
 
 ```
-ADK multi-agent system  →  SequentialAgent + 3 LlmAgents (agents/orchestrator.py)
+ADK multi-agent system  →  SequentialAgent + 8 LlmAgents (agents/orchestrator.py)
 MCP Server              →  read-only SQLite, 9 tools (mcp/mcp_server.py)
 Agent Skill             →  .agent/skills/medication-reconciliation/SKILL.md
-Security features       →  Policy Server + forbidden phrase guardrails
-Deployable app          →  streamlit run app.py
-Antigravity workflow    →  spec-driven development: blueprint → SKILL.md → agents → tests
+Security features       →  Policy Server + prompt injection detection (input_sanitizer.py)
+Deployable app          →  streamlit run app.py — 6 tabs, 152 tests green
+Antigravity workflow    →  spec-first: blueprint → SKILL.md → agents → tests → app
 ```
 
 ---
 
-### [2:50 – 3:00] Part 6 — Closing
+### [3:15 – 3:30] Part 6 — Closing
 
 **Screen:** Return to app with case_001 result visible.
 
@@ -174,10 +192,11 @@ Antigravity workflow    →  spec-driven development: blueprint → SKILL.md →
 |---------|----------|---------------|
 | Problem | 0:30 | 0:30 |
 | Architecture | 0:15 | 0:45 |
-| Live demo | 1:25 | 2:10 |
-| Safety + evals | 0:20 | 2:30 |
-| Course concepts | 0:20 | 2:50 |
-| Closing | 0:10 | 3:00 |
+| Live demo (case_001) | 1:25 | 2:10 |
+| Safety + evals | 0:25 | 2:35 |
+| Drug search (Tab 5) | 0:20 | 2:55 |
+| Course concepts | 0:20 | 3:15 |
+| Closing | 0:15 | 3:30 |
 
 ---
 
@@ -186,6 +205,7 @@ Antigravity workflow    →  spec-driven development: blueprint → SKILL.md →
 **If the LLM agent times out or fails:**
 - Show `python demo/run_case.py case_001` in terminal — it runs the deterministic pipeline without the LLM and prints the full structured output.
 - Say: "This is the deterministic layer underneath the agent — it runs without any API call."
+- For Tab 5 (drug search), if it fails: skip it and spend the extra 20 seconds on the agent trace.
 
 **If Streamlit fails to start:**
 - Run `python evals/run_evals.py` in terminal and narrate from the terminal output.
@@ -201,10 +221,10 @@ Antigravity workflow    →  spec-driven development: blueprint → SKILL.md →
 
 ```
 $ pytest tests/ -q
-116 passed in 0.73s
+152 passed
 
 $ python evals/run_evals.py
-RESULT: PASS — 15/15 evaluations
+RESULT: PASS — 36/36 evaluations
 ```
 
 Coverage by area:
@@ -213,3 +233,6 @@ Coverage by area:
 - `test_reconciliation.py` — discrepancy detection, run_full_analysis
 - `test_risk_scoring.py` — risk classification for all discrepancy types
 - `test_policy_server.py` — forbidden phrase detection, HIGH-risk required phrases
+- `test_drug_interactions.py` — NLM RxNorm API + static fallback
+- `test_input_sanitizer.py` — prompt injection detection (18 patterns)
+- Integration tests (4) — end-to-end with real LLM (requires GOOGLE_API_KEY)

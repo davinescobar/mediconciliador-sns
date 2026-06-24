@@ -1,0 +1,29 @@
+================================================================================
+PRIMARY CARE ACTIVE PRESCRIPTION RECORD
+[SYNTHETIC / DEMO DATA — NOT REAL PATIENT INFORMATION]
+================================================================================
+
+Primary Care Center:    Centro de Salud Demo #4 — San Rafael
+General Practitioner:   Dr. J. Martinez
+Date retrieved:         18 November 2024
+Patient:                Carlos M.V., DOB 1945-07-22 (SYNTHETIC)
+Patient ID:             DEMO-002
+
+--------------------------------------------------------------------------------
+ACTIVE PRESCRIPTIONS ON FILE
+--------------------------------------------------------------------------------
+
+  Drug name          Dose      Route    Frequency              Status
+  ─────────────────────────────────────────────────────────────────────────────
+  Ramipril           5 mg      Oral     Once daily             Active
+  Carvedilol         6.25 mg   Oral     Twice daily            Active
+  Metformin          850 mg    Oral     Twice daily            Active
+
+--------------------------------------------------------------------------------
+NOTES
+--------------------------------------------------------------------------------
+Record updated following hospital discharge on 10/11/2024.
+
+--------------------------------------------------------------------------------
+[SYNTHETIC DOCUMENT — FOR DEMO PURPOSES ONLY]
+================================================================================

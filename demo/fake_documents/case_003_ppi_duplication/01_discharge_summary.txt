@@ -1,0 +1,67 @@
+================================================================================
+HOSPITAL DISCHARGE SUMMARY
+[SYNTHETIC / DEMO DATA — NOT REAL PATIENT INFORMATION]
+================================================================================
+
+Institution:    Fictitious General Hospital — San Rafael (Demo Only)
+Ward:           Traumatology — Room 107
+Attending:      Dr. L. Mora, Traumatology / Orthopaedics
+Date of admission:  28 October 2024
+Date of discharge:  05 November 2024
+
+--------------------------------------------------------------------------------
+PATIENT (SYNTHETIC)
+--------------------------------------------------------------------------------
+Name:       Rosa P.N.
+Age:        87 years old
+Sex:        Female
+DOB:        1937-01-08 (fictional)
+ID:         DEMO-003 (not a real patient identifier)
+
+Known allergies: None documented
+
+Risk factors:
+  - Osteoporosis (on calcium supplementation for 3 years)
+  - Hypertension (15-year history)
+  - Mild cognitive impairment (MMSE 22/30)
+  - Polypharmacy (5+ active drugs prior to admission)
+
+--------------------------------------------------------------------------------
+ADMISSION DIAGNOSIS
+--------------------------------------------------------------------------------
+Left hip fracture (femoral neck). Fall at home. Treated surgically (total hip
+replacement). Post-operative course unremarkable. Physiotherapy initiated on
+Day 2. Discharged with mobility aids.
+
+--------------------------------------------------------------------------------
+MEDICATIONS AT DISCHARGE
+--------------------------------------------------------------------------------
+1.  Omeprazole 20 mg — oral — ONCE DAILY (before breakfast)
+    Gastroprotection. Continue as prescribed. Do not add additional stomach
+    protectors from the pharmacy — this prescription already covers that need.
+
+2.  Amlodipine 5 mg — oral — ONCE DAILY
+    For hypertension control.
+
+3.  Calcium carbonate + Vitamin D3 — 500 mg / 400 IU — oral — TWICE DAILY
+    Essential for bone recovery after hip fracture. Take one tablet in the
+    morning and one in the evening with meals.
+
+--------------------------------------------------------------------------------
+MEDICATIONS DISCONTINUED AT DISCHARGE
+--------------------------------------------------------------------------------
+None.
+
+--------------------------------------------------------------------------------
+FOLLOW-UP INSTRUCTIONS
+--------------------------------------------------------------------------------
+- Physiotherapy: 3 sessions per week for 6 weeks.
+- Fracture liaison clinic: 4 weeks post-discharge.
+- Blood pressure check at primary care: 2 weeks.
+- Bone density scan (DEXA): schedule within 3 months.
+
+--------------------------------------------------------------------------------
+Signed: Dr. L. Mora, Traumatology
+Date: 05 November 2024
+[SYNTHETIC DOCUMENT — FOR DEMO PURPOSES ONLY]
+================================================================================

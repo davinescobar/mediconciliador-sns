@@ -17,6 +17,16 @@ In Spain's National Health System (SNS), this reconciliation task falls on prima
 
 MediConciliador SNS is a multi-agent AI system that automates the comparison of these three sources, detects discrepancies with clinical context, classifies risk, and generates two safe outputs: a structured checklist for the clinician and a plain-language summary for the patient. It is built for demonstration and educational purposes using synthetic data only.
 
+### Scale of the problem
+
+The evidence for this problem is strong and well-documented. The World Health Organization estimates medication errors cost **$42 billion per year** globally — nearly 1% of total health expenditure — and has made medication safety in polypharmacy and care transitions a global patient safety priority ([WHO, *Medication Without Harm*](https://www.who.int/initiatives/medication-without-harm)). The OECD estimates that **1 in 10 hospitalizations** in member countries may be caused by medication-related harm, with preventable costs exceeding **$54 billion per year** from avoidable admissions and extended stays ([OECD, 2022](https://www.oecd.org/en/publications/2022/09/the-economics-of-medication-safety_e79d5329.html)).
+
+In Spain, the ENEAS national study found that **37.4% of all hospital adverse events were medication-related**, and **42.8% were preventable**. Spanish Ministry of Health guidance documents — developed with ISMP-España — report that reconciliation errors can reach **63% of patients at hospital discharge** in high-risk populations. Of Spain's roughly 9 million people over 65, **29.7% are chronically polymedicated** (five or more active drugs); among those aged 85–94, the figure reaches **44.7%**.
+
+Systematic reviews on post-discharge safety find that approximately **1 in 2 older patients** experiences a medication error in the weeks after hospital discharge, with omissions — a drug simply absent from the updated prescription — accounting for nearly half of all reconciliation discrepancies (Michaelsen et al., *Pharmacy*, 2015; Alqenae et al., *Drug Safety*, 2020). These errors rarely surface until a patient returns to primary care, calls a pharmacist, or is readmitted to the emergency department.
+
+The problem is equally documented in the **United States**: the Institute of Medicine (now National Academy of Medicine) estimated **1.5 million preventable adverse drug events per year** across US healthcare settings. The Joint Commission designated medication reconciliation a **National Patient Safety Goal in 2005**, and it remains one today. Drug interaction checking in MediConciliador SNS uses the **NLM RxNorm API** — the US National Library of Medicine's standard drug terminology, freely available with no authentication — so the system works with both US and international drug names out of the box.
+
 ---
 
 ## 2. System Architecture
@@ -83,6 +93,10 @@ The PolicyServer implements a two-layer safety filter. Layer 1 is deterministic:
 
 Crucially, policy enforcement is wired into the agent's tool loop, not just mentioned in the prompt. CommunicationAgent's instruction requires it to call `run_policy_check` and retry until `passed=true` — the LLM cannot finalize output without a policy-passing result. This implements the tool-enforced safety loop described in Day 5.
 
+**Prompt injection protection for user-uploaded documents.** The "New Case" tab allows clinicians to upload or paste free-text clinical documents. Before any LLM call, `tools/input_sanitizer.py` scans each document for injection patterns (e.g., "ignore previous instructions", "you are now", `<system>` tags, developer-mode triggers) using compiled regex with 18 signatures. Detected patterns produce a visible UI warning. The extraction prompt additionally wraps the document in `<DOCUMENT>` delimiters with an explicit instruction to ignore any commands embedded in the content — a defense-in-depth approach that treats the LLM as the second line of defense, not the first.
+
+**NLM RxNorm drug interaction checking.** The deterministic analysis pipeline calls `tools/drug_interactions.py` after risk scoring to enrich the reconciliation report with a `drug_interactions` field. It first queries the public NLM RxNorm REST API (free, no authentication required) with a 4-second timeout: CUI lookup at `/REST/rxcui.json`, then interaction pairs at `/REST/interaction/list.json`. On any network failure or timeout, it falls back to the static `data/high_risk_medications.json` table, which cross-references 20 drug categories (anticoagulants, NSAIDs, SSRIs, azole antifungals, etc.) using their `key_interactions` fields. The fallback ensures the feature is available during demos without internet access.
+
 ### 3.5 Deployable App
 
 **Files:** `app.py`, `requirements.txt`
@@ -133,7 +147,7 @@ MediConciliador SNS is a prototype for educational and demonstration purposes. I
 
 ## 6. Results
 
-**Test suite:** 131 tests across 8 test modules, covering MCP read-only enforcement, medication extraction and normalization, discrepancy detection, risk scoring, policy server structural gating, tool callback behavior, agent construction, and end-to-end integration with a live LLM. All 131 pass.
+**Test suite:** 152 tests across 10 test modules, covering MCP read-only enforcement, medication extraction and normalization, discrepancy detection, risk scoring, policy server structural gating, tool callback behavior, agent construction, end-to-end integration with a live LLM, drug interaction checking (NLM + static fallback), and prompt injection detection. All 152 pass.
 
 **Evaluation pipeline:** 36 behavioral evaluations across 10 synthetic cases, measuring discrepancy recall and precision against a gold-standard JSON dataset, risk classification accuracy, tool trajectory coverage (verified that the required 5 tool calls appear in every run), and safety policy behavior for 6 edge-case policy scenarios. All 36 pass.
 

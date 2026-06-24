@@ -1,0 +1,54 @@
+================================================================================
+MEDICATION RECONCILIATION INTERVIEW — PATIENT REPORT
+[SYNTHETIC / DEMO DATA — NOT REAL PATIENT INFORMATION]
+================================================================================
+
+Date of interview:      20 November 2024
+Interviewer:            Pharmacy Resident, Primary Care Center #4
+Patient:                Rosa P.N., 87F (SYNTHETIC)
+Caregiver present:      NO (daughter called during interview)
+
+--------------------------------------------------------------------------------
+MEDICATIONS REPORTED BY PATIENT
+--------------------------------------------------------------------------------
+The patient was asked to list ALL medications, supplements, and over-the-counter
+products she is currently taking. She produced a bag with her current pills.
+The following were identified and reported:
+
+1.  Omeprazole 20 mg — once daily
+    "The doctor at the hospital gave me this. I take it before breakfast."
+
+2.  A stomach protector (small green capsule, brand not identified)
+    Unknown dose — "once daily"
+    "I have been buying this at the pharmacy for years. I did not want to stop
+    it because I have always had a sensitive stomach. I thought it was different
+    from the one the hospital gave me because the colour is different."
+    [Pharmacist note: capsule is consistent with omeprazole 20 mg — likely a
+    generic brand bought OTC. Patient does not know what the active ingredient is.]
+
+3.  Amlodipine 5 mg — once daily
+    (No additional comment from patient.)
+
+4.  Calcium supplement — "two tablets per day, morning and evening"
+    "The nurse at the hospital said it is for my bones. The pharmacist gave me
+    a different brand from the one they gave me at the hospital. I am not sure
+    if they are the same."
+
+--------------------------------------------------------------------------------
+PATIENT CONCERNS
+--------------------------------------------------------------------------------
+- Patient is not sure which stomach pills to keep — "are they the same medicine?"
+- Confused about whether the OTC calcium brand is the same as the prescription.
+- Mild cognitive impairment is affecting her ability to organise her medication.
+- Daughter (on phone) says she helps on weekends but cannot monitor daily.
+
+--------------------------------------------------------------------------------
+INTERVIEWER OBSERVATIONS
+--------------------------------------------------------------------------------
+- Patient presented a bag with 4 different pill packs — two stomach protectors
+  visible (hospital discharge pack + OTC green capsule from pharmacy).
+- She is taking both simultaneously without knowing they may be the same drug.
+
+--------------------------------------------------------------------------------
+[SYNTHETIC DOCUMENT — FOR DEMO PURPOSES ONLY]
+================================================================================

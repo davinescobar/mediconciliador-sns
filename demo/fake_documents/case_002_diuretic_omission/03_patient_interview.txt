@@ -1,0 +1,46 @@
+================================================================================
+MEDICATION RECONCILIATION INTERVIEW — PATIENT REPORT
+[SYNTHETIC / DEMO DATA — NOT REAL PATIENT INFORMATION]
+================================================================================
+
+Date of interview:      20 November 2024
+Interviewer:            Pharmacy Resident, Primary Care Center #4
+Patient:                Carlos M.V., 79M (SYNTHETIC)
+Caregiver present:      NO
+
+--------------------------------------------------------------------------------
+MEDICATIONS REPORTED BY PATIENT
+--------------------------------------------------------------------------------
+The patient was asked to list ALL medications, supplements, and over-the-counter
+products he is currently taking. The following were reported:
+
+1.  Ramipril 5 mg — once daily
+    (No additional comment from patient.)
+
+2.  Carvedilol 6.25 mg — twice daily
+    (No additional comment from patient.)
+
+3.  Metformin 850 mg — twice daily
+    (No additional comment from patient.)
+
+--------------------------------------------------------------------------------
+PATIENT CONCERNS
+--------------------------------------------------------------------------------
+- Ankles have been swelling since returning home from the hospital.
+- "I thought it was the heat or walking too much."
+- Patient has not weighed himself daily as instructed.
+- He is not aware that a diuretic should be part of his current regimen.
+- He did not receive furosemide at the pharmacy because it was not on the
+  prescription printout.
+
+--------------------------------------------------------------------------------
+INTERVIEWER OBSERVATIONS
+--------------------------------------------------------------------------------
+- Patient appears mildly breathless when walking across the room.
+- Bilateral pitting oedema visible at ankle level.
+- Patient has a daily weight diary but has not filled it in since discharge.
+- Patient was not informed that furosemide was missing from his prescription.
+
+--------------------------------------------------------------------------------
+[SYNTHETIC DOCUMENT — FOR DEMO PURPOSES ONLY]
+================================================================================

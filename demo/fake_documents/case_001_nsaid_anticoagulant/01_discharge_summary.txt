@@ -1,0 +1,76 @@
+================================================================================
+HOSPITAL DISCHARGE SUMMARY
+[SYNTHETIC / DEMO DATA — NOT REAL PATIENT INFORMATION]
+================================================================================
+
+Institution:    Fictitious General Hospital — San Rafael (Demo Only)
+Ward:           Cardiology — Room 214
+Attending:      Dr. A. Fernandez, Cardiology
+Date of admission:  08 November 2024
+Date of discharge:  15 November 2024
+
+--------------------------------------------------------------------------------
+PATIENT (SYNTHETIC)
+--------------------------------------------------------------------------------
+Name:       Maria G.T.
+Age:        84 years old
+Sex:        Female
+DOB:        1940-03-15 (fictional)
+ID:         DEMO-001 (not a real patient identifier)
+
+Known allergies: PENICILLIN (rash)
+
+Risk factors:
+  - Permanent atrial fibrillation (AF), diagnosed 2018
+  - Chronic kidney disease stage 3 (eGFR 38 mL/min)
+  - Polypharmacy (5+ active drugs prior to admission)
+  - Mild cognitive impairment
+
+--------------------------------------------------------------------------------
+ADMISSION DIAGNOSIS
+--------------------------------------------------------------------------------
+Acute exacerbation of atrial fibrillation with rapid ventricular response.
+Admitted via Emergency Department. Heart rate on arrival: 148 bpm. Treated with
+IV diltiazem and subsequently stabilised on bisoprolol. AF converted to
+controlled rate (78 bpm) by Day 3. Anticoagulation initiated with apixaban
+given history of AF and CHA2DS2-VASc score of 5. Prior NSAID use identified as
+a contributing risk factor for renal deterioration.
+
+--------------------------------------------------------------------------------
+MEDICATIONS AT DISCHARGE
+--------------------------------------------------------------------------------
+1.  Apixaban 5 mg — oral — TWICE DAILY (morning and evening)
+    NOTE: Do NOT combine with NSAIDs (ibuprofen, naproxen, diclofenac,
+    ketoprofen). Risk of serious gastrointestinal bleeding and acute kidney
+    injury. Anticoagulant effect may be potentiated. Patient instructed at
+    discharge.
+
+2.  Bisoprolol 2.5 mg — oral — ONCE DAILY (morning)
+    For rate control in atrial fibrillation.
+
+3.  Omeprazole 20 mg — oral — ONCE DAILY (before breakfast)
+    Gastroprotection during anticoagulation therapy.
+
+--------------------------------------------------------------------------------
+MEDICATIONS DISCONTINUED AT DISCHARGE
+--------------------------------------------------------------------------------
+- Ibuprofen 600 mg (oral, as needed)
+  REASON: Contraindicated with anticoagulation (apixaban). Risk of severe
+  gastrointestinal bleeding and renal impairment in the context of CKD stage 3.
+  Patient and caregiver explicitly informed. Patient must NOT purchase ibuprofen
+  or any other NSAID over the counter.
+
+--------------------------------------------------------------------------------
+FOLLOW-UP INSTRUCTIONS
+--------------------------------------------------------------------------------
+- Follow-up with primary care physician within 7 days.
+- Renal function (creatinine, eGFR) check at 30 days.
+- Cardiology outpatient appointment in 6 weeks.
+- Patient education reinforced: no NSAIDs. Paracetamol (acetaminophen) is the
+  recommended alternative for pain management.
+
+--------------------------------------------------------------------------------
+Signed: Dr. A. Fernandez, Cardiology
+Date: 15 November 2024
+[SYNTHETIC DOCUMENT — FOR DEMO PURPOSES ONLY]
+================================================================================

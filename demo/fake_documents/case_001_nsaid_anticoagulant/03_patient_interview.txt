@@ -1,0 +1,51 @@
+================================================================================
+MEDICATION RECONCILIATION INTERVIEW — PATIENT REPORT
+[SYNTHETIC / DEMO DATA — NOT REAL PATIENT INFORMATION]
+================================================================================
+
+Date of interview:      22 November 2024
+Interviewer:            Pharmacy Resident, Primary Care Center #4
+Patient:                Maria G.T., 84F (SYNTHETIC)
+Caregiver present:      YES — daughter (Elena G.)
+
+--------------------------------------------------------------------------------
+MEDICATIONS REPORTED BY PATIENT
+--------------------------------------------------------------------------------
+The patient was asked to list ALL medications, supplements, and over-the-counter
+products she is currently taking. The following were reported:
+
+1.  Apixaban 5 mg — twice daily
+    "I take this for my heart. The cardiologist started it at the hospital."
+
+2.  Bisoprolol 2.5 mg — once daily (morning)
+    (No additional comment from patient.)
+
+3.  Omeprazole 20 mg — once daily
+    "The stomach protector. The doctor said to take it before breakfast."
+
+4.  Ibuprofen 600 mg — as needed, approximately 3–4 times per week
+    "I buy it at the pharmacy without a prescription. I have been taking it for
+    years for my knee pain. It is the only thing that helps. Nobody at the
+    hospital told me to stop it. I thought it was different from the blood
+    thinner."
+
+--------------------------------------------------------------------------------
+PATIENT CONCERNS
+--------------------------------------------------------------------------------
+- Knee pain is very bad and she does not know what else to take for it.
+- She was not aware that ibuprofen and apixaban could interact.
+- She stopped the ibuprofen after the hospital but started it again two days
+  later because the pain was unbearable.
+
+--------------------------------------------------------------------------------
+CAREGIVER NOTES (daughter, Elena G.)
+--------------------------------------------------------------------------------
+- Patient buys ibuprofen from the pharmacy without mentioning it to the GP.
+- The family did not connect the NSAID with the anticoagulant.
+- They received the discharge instructions but did not fully understand the
+  NSAID warning.
+- Elena is willing to help supervise medication going forward.
+
+--------------------------------------------------------------------------------
+[SYNTHETIC DOCUMENT — FOR DEMO PURPOSES ONLY]
+================================================================================

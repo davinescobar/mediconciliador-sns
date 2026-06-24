@@ -1,0 +1,29 @@
+================================================================================
+PRIMARY CARE ACTIVE PRESCRIPTION RECORD
+[SYNTHETIC / DEMO DATA — NOT REAL PATIENT INFORMATION]
+================================================================================
+
+Primary Care Center:    Centro de Salud Demo #4 — San Rafael
+General Practitioner:   Dr. J. Martinez
+Date retrieved:         18 November 2024
+Patient:                Rosa P.N., DOB 1937-01-08 (SYNTHETIC)
+Patient ID:             DEMO-003
+
+--------------------------------------------------------------------------------
+ACTIVE PRESCRIPTIONS ON FILE
+--------------------------------------------------------------------------------
+
+  Drug name                     Dose          Route  Frequency       Status
+  ──────────────────────────────────────────────────────────────────────────────
+  Omeprazole                    20 mg         Oral   Once daily      Active
+  Amlodipine                    5 mg          Oral   Once daily      Active
+  Calcium carbonate + Vit D3    500mg/400IU   Oral   Twice daily     Active
+
+--------------------------------------------------------------------------------
+NOTES
+--------------------------------------------------------------------------------
+Record updated following hospital discharge on 05/11/2024.
+
+--------------------------------------------------------------------------------
+[SYNTHETIC DOCUMENT — FOR DEMO PURPOSES ONLY]
+================================================================================

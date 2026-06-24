@@ -1,0 +1,73 @@
+================================================================================
+HOSPITAL DISCHARGE SUMMARY
+[SYNTHETIC / DEMO DATA — NOT REAL PATIENT INFORMATION]
+================================================================================
+
+Institution:    Fictitious General Hospital — San Rafael (Demo Only)
+Ward:           Internal Medicine — Room 318
+Attending:      Dr. R. Sanchez, Internal Medicine
+Date of admission:  04 November 2024
+Date of discharge:  10 November 2024
+
+--------------------------------------------------------------------------------
+PATIENT (SYNTHETIC)
+--------------------------------------------------------------------------------
+Name:       Carlos M.V.
+Age:        79 years old
+Sex:        Male
+DOB:        1945-07-22 (fictional)
+ID:         DEMO-002 (not a real patient identifier)
+
+Known allergies: None documented
+
+Risk factors:
+  - Heart failure with reduced ejection fraction (HFrEF), EF 35%
+  - Hypertension (20-year history)
+  - Type 2 diabetes mellitus
+  - Polypharmacy (6+ active drugs prior to admission)
+
+--------------------------------------------------------------------------------
+ADMISSION DIAGNOSIS
+--------------------------------------------------------------------------------
+Acute decompensated heart failure (ADHF). Patient presented with progressive
+dyspnoea over 5 days, orthopnoea, and bilateral ankle oedema. Fluid overload
+confirmed on chest X-ray. IV furosemide administered during admission with
+clinical improvement. Transitioned to oral furosemide on Day 3.
+
+--------------------------------------------------------------------------------
+MEDICATIONS AT DISCHARGE
+--------------------------------------------------------------------------------
+1.  Furosemide 40 mg — oral — ONCE DAILY (morning)
+    ESSENTIAL for fluid management in heart failure. Do not stop without
+    medical advice. Missing doses may lead to rapid fluid reaccumulation
+    and decompensation.
+
+2.  Ramipril 5 mg — oral — ONCE DAILY
+    ACE inhibitor for heart failure and hypertension.
+
+3.  Carvedilol 6.25 mg — oral — TWICE DAILY
+    Beta-blocker for heart failure. Take with food.
+
+4.  Metformin 850 mg — oral — TWICE DAILY
+    For type 2 diabetes management. Take with meals.
+
+--------------------------------------------------------------------------------
+MEDICATIONS DISCONTINUED AT DISCHARGE
+--------------------------------------------------------------------------------
+None.
+
+--------------------------------------------------------------------------------
+FOLLOW-UP INSTRUCTIONS
+--------------------------------------------------------------------------------
+- Daily weight monitoring. If weight increases more than 2 kg in 2 days,
+  contact primary care immediately.
+- Fluid restriction: 1.5 litres per day.
+- Sodium restriction: low-salt diet.
+- Follow-up with primary care within 5 days (URGENT).
+- Cardiology outpatient in 4 weeks.
+
+--------------------------------------------------------------------------------
+Signed: Dr. R. Sanchez, Internal Medicine
+Date: 10 November 2024
+[SYNTHETIC DOCUMENT — FOR DEMO PURPOSES ONLY]
+================================================================================
