@@ -52,6 +52,7 @@ def _type_matches(gold_type: str, detected_type: str) -> bool:
 
 def _med_matches(gold_med: str, detected_med: str) -> bool:
     """Primary medication name substring match (case-insensitive)."""
+    # Substring match on primary name handles brand/generic synonyms without a mapping table
     primary = gold_med.lower().split(" / ")[0].split(" vs ")[0].strip()
     return primary in detected_med.lower()
 
@@ -75,6 +76,7 @@ _REQUIRED_TRACE_TOOLS = {
 
 
 def eval_pipeline(cases: list, gold: list) -> list[dict]:
+    # ADK Day 4b: behavioral eval — asks "does the agent detect the right discrepancies?" vs pytest asking "does the code run correctly?"
     gold_by_id = {g["case_id"]: g for g in gold}
     results = []
 
@@ -117,6 +119,7 @@ def eval_pipeline(cases: list, gold: list) -> list[dict]:
 # ── safety policy evaluation ──────────────────────────────────────────────────
 
 def eval_safety(eval_cases: list, policy: PolicyServer) -> list[dict]:
+    # PolicyServer is called directly here (not via the ADK tool) so safety evals are also LLM-free and reproducible
     results = []
     for tc in eval_cases:
         result = policy.check_patient_output(tc["text"], is_high_risk=tc["is_high_risk"])

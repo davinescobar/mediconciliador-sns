@@ -150,6 +150,7 @@ def run_full_analysis(case_data_json: str, tool_context: ToolContext | None = No
     Returns:
         JSON reconciliation report (same structure as format_reconciliation_report).
     """
+    # All logic below is deterministic — no LLM calls — so evals and tests produce identical results every run
     clear_trace()
     case_data = _extract_json(case_data_json)
     case_id = case_data.get("case_id", "unknown")
@@ -212,6 +213,7 @@ def run_full_analysis(case_data_json: str, tool_context: ToolContext | None = No
         trace_json=json.dumps(get_trace(), ensure_ascii=False),
         reconciliation_table_json=json.dumps(recon_table, ensure_ascii=False),
     )
+    # ADK Day 3: writing directly to state via ToolContext lets CommunicationAgent read {analysis_results} without LLM output parsing
     if tool_context is not None:
         tool_context.state["analysis_results"] = result
     return result

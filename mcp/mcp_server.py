@@ -32,6 +32,7 @@ DB_PATH = PROJECT_ROOT / "data" / "mediconciliador.db"
 
 def _connect() -> sqlite3.Connection:
     """Opens the DB in read-only mode. Raises if DB does not exist."""
+    # ADK Day 2b: mode=ro enforces at the SQLite URI level — no code-level guard can accidentally write
     uri = f"file:{DB_PATH}?mode=ro"
     return sqlite3.connect(uri, uri=True)
 
@@ -40,7 +41,7 @@ def _not_found(case_id: str) -> str:
     return json.dumps({"error": f"Case '{case_id}' not found"})
 
 
-# — Private fetch functions (used by MCP tools and importable for tests) ——
+# Private _fetch_* functions are plain Python — importable by tests without starting the MCP server process
 
 def _fetch_case_list() -> list[dict]:
     with _connect() as conn:
@@ -140,8 +141,7 @@ def _fetch_reconciliation_guidance() -> dict:
     return {key: json.loads(content) for key, content in rows}
 
 
-# — MCP tool definitions ————————————————————————————————————————————————
-
+# ADK Day 2b: FastMCP exposes each @mcp.tool() as a callable over the MCP protocol — the agent sees these as native tools
 mcp = FastMCP("mediconciliador-mcp")
 
 

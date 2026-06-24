@@ -83,6 +83,7 @@ Output ONLY the JSON object. No markdown, no explanation, no code fences.\
 
 def create_communication_agent() -> LlmAgent:
     """Returns a configured CommunicationAgent with policy enforcement via tool."""
+    # ADK Day 5: the agent is instructed to loop on run_policy_check until passed=true — safety is tool-enforced, not prompt-suggested
     return LlmAgent(
         name="CommunicationAgent",
         model=_MODEL,

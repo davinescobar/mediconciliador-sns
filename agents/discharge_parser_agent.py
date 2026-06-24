@@ -56,6 +56,7 @@ Output ONLY the JSON object. No markdown, no explanation, no code fences.\
 
 def create_data_collection_agent() -> LlmAgent:
     """Returns a configured DataCollectionAgent (LlmAgent with MCPToolset)."""
+    # ADK Day 2b: McpToolset launches mcp_server.py as a subprocess and exposes its tools to the agent
     toolset = McpToolset(
         connection_params=StdioServerParameters(
             command="python",
@@ -67,7 +68,9 @@ def create_data_collection_agent() -> LlmAgent:
         model=_MODEL,
         instruction=_INSTRUCTION,
         tools=[toolset],
+        # ADK Day 3: output_key writes the agent's final text to session state so AnalysisAgent can read it via {case_data}
         output_key="case_data",
+        # ADK Day 4a: before/after callbacks log every tool call to build the trajectory trace
         before_tool_callback=before_tool_log,
         after_tool_callback=after_tool_log,
         generate_content_config=_GENERATE_CONFIG,
