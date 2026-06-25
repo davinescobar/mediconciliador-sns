@@ -19,13 +19,11 @@ MediConciliador SNS is a multi-agent AI system that automates the comparison of 
 
 ### Scale of the problem
 
-The evidence for this problem is strong and well-documented. The World Health Organization estimates medication errors cost **$42 billion per year** globally — nearly 1% of total health expenditure — and has made medication safety in polypharmacy and care transitions a global patient safety priority ([WHO, *Medication Without Harm*](https://www.who.int/initiatives/medication-without-harm)). The OECD estimates that **1 in 10 hospitalizations** in member countries may be caused by medication-related harm, with preventable costs exceeding **$54 billion per year** from avoidable admissions and extended stays ([OECD, 2022](https://www.oecd.org/en/publications/2022/09/the-economics-of-medication-safety_e79d5329.html)).
+The World Health Organization estimates medication errors cost **$42 billion per year** globally and has made medication safety in polypharmacy and care transitions a global priority ([WHO, *Medication Without Harm*](https://www.who.int/initiatives/medication-without-harm)). The OECD estimates **1 in 10 hospitalizations** may be caused by medication-related harm, with preventable costs exceeding **$54 billion per year** ([OECD, 2022](https://www.oecd.org/en/publications/2022/09/the-economics-of-medication-safety_e79d5329.html)).
 
-In Spain, the ENEAS national study found that **37.4% of all hospital adverse events were medication-related**, and **42.8% were preventable**. Spanish Ministry of Health guidance documents — developed with ISMP-España — report that reconciliation errors can reach **63% of patients at hospital discharge** in high-risk populations. Of Spain's roughly 9 million people over 65, **29.7% are chronically polymedicated** (five or more active drugs); among those aged 85–94, the figure reaches **44.7%**.
+In Spain, the ENEAS national study found **37.4% of all hospital adverse events were medication-related**, with reconciliation errors reaching **63% of patients at hospital discharge** in high-risk populations. Systematic reviews find approximately **1 in 2 older patients** experiences a medication error in the weeks after discharge, with omissions accounting for nearly half of all discrepancies (Michaelsen et al., *Pharmacy*, 2015).
 
-Systematic reviews on post-discharge safety find that approximately **1 in 2 older patients** experiences a medication error in the weeks after hospital discharge, with omissions — a drug simply absent from the updated prescription — accounting for nearly half of all reconciliation discrepancies (Michaelsen et al., *Pharmacy*, 2015; Alqenae et al., *Drug Safety*, 2020). These errors rarely surface until a patient returns to primary care, calls a pharmacist, or is readmitted to the emergency department.
-
-The problem is equally documented in the **United States**: the Institute of Medicine (now National Academy of Medicine) estimated **1.5 million preventable adverse drug events per year** across US healthcare settings. The Joint Commission designated medication reconciliation a **National Patient Safety Goal in 2005**, and it remains one today. Drug interaction checking in MediConciliador SNS uses the **NLM RxNorm API** — the US National Library of Medicine's standard drug terminology, freely available with no authentication — so the system works with both US and international drug names out of the box.
+In the **United States**, the Institute of Medicine estimated **1.5 million preventable adverse drug events per year**. The Joint Commission has made medication reconciliation a **National Patient Safety Goal since 2005**. Drug interaction checking uses the **NLM RxNorm API** — the US National Library of Medicine's standard drug terminology, free and without authentication — so the system works with both US and international drug names.
 
 ---
 
@@ -53,7 +51,7 @@ A **PolicyServer** sits behind `run_policy_check` and adds a second semantic lay
 
 The **MCP Server** (`mcp/mcp_server.py`) is a FastMCP server backed by SQLite. All 9 tools are read-only, enforced at the SQLite URI level (`mode=ro`). The server runs as a subprocess launched by the ADK agent's MCPToolset.
 
-The **Streamlit app** (`app.py`) provides a 5-tab UI: case selection, source documents, reconciliation results, evaluation dashboard, and pharmacological search. A sixth tab allows clinicians to upload or paste documents from real (non-production) cases for ad-hoc analysis using a GPT-based extraction step.
+The **Streamlit app** (`app.py`) provides a 6-tab UI: case selection, source documents, reconciliation results, evaluation dashboard, pharmacological search, and a document upload tab that allows clinicians to paste or upload free-text clinical documents for ad-hoc LLM-based extraction and analysis.
 
 ---
 
@@ -139,9 +137,7 @@ MediConciliador SNS is a prototype for educational and demonstration purposes. I
 
 **LLM non-determinism.** The DataCollectionAgent and CommunicationAgent use a language model, whose outputs vary across runs. The deterministic analysis pipeline mitigates this for the core reconciliation logic, but the professional checklist and patient summary will differ between runs. In a production system, this would require human review of every LLM-generated output before it reaches a patient.
 
-**Local demo only.** The application runs locally and has not been deployed to a cloud environment. A production system would require authentication, audit logging, data residency compliance, and regulatory approval as a clinical decision-support tool.
-
-**Semantic gating reliability.** The second-layer semantic policy check calls Gemini to detect implicit clinical directives. This check can produce false positives (blocking safe text) or false negatives (passing unsafe text that evades both layers). It is a defense-in-depth measure, not a primary safety mechanism.
+**Semantic gating reliability.** The second-layer semantic policy check calls Gemini to detect implicit clinical directives. It can produce false positives or false negatives — it is a defense-in-depth measure, not a primary safety mechanism. A production system would additionally require authentication, audit logging, data residency compliance, and regulatory approval.
 
 ---
 
@@ -159,14 +155,14 @@ The evaluation methodology separates behavioral correctness (does the agent dete
 
 ## 7. Project Journey
 
-MediConciliador SNS followed a strict spec-first sequence. The full architecture — problem framing, agent topology, data model, tool taxonomy, safety constraints, and evaluation criteria — was written in `specs/00_project_blueprint.md` before a single line of code existed. The `SKILL.md` file came next, formalizing what the agent could and could not do. Only then were the agents, tools, and tests written — in that order.
+The project followed a spec-first sequence. The full architecture was written in `specs/00_project_blueprint.md` before a single line of code existed; `SKILL.md` came next; agents, tools, and tests followed in that order.
 
 Three decisions changed significantly during development.
 
-**The analysis pipeline became deterministic.** The first version of AnalysisAgent used the LLM to identify discrepancies directly from the source documents. After the first evaluation run, the results were non-reproducible: the same case returned different discrepancy counts across runs, making it impossible to define a reliable gold standard. The pipeline was rewritten as deterministic Python — medication extraction, normalization, comparison, and risk scoring all produce identical results on every run. The LLM's role was narrowed to parsing unstructured input and generating natural language output.
+**The analysis pipeline became deterministic.** The first version of AnalysisAgent used the LLM to detect discrepancies directly. After the first evaluation run revealed non-reproducible counts across runs, the pipeline was rewritten as deterministic Python. The LLM's role was narrowed to parsing unstructured input and generating natural language output.
 
-**The Policy Server became tool-enforced.** The original safety design placed forbidden-phrase instructions in the CommunicationAgent's prompt and trusted the model to follow them. Testing revealed that prompt instructions are a soft constraint — the model occasionally produced patient-facing text with implicit clinical directives that evaded the explicit rule set. The design was changed to require `run_policy_check` as a mandatory tool call, with a retry loop until `passed=true`. Safety shifted from something the model was asked to do to something the architecture enforced.
+**The Policy Server became tool-enforced.** Safety instructions placed in the CommunicationAgent's prompt were a soft constraint — the model occasionally produced patient-facing text with implicit clinical directives. The design was changed to require `run_policy_check` as a mandatory tool call with a retry loop until `passed=true`, shifting safety from something the model was asked to do to something the architecture enforced.
 
-**Drug interaction checking was added late.** The original risk scoring relied entirely on the static `data/high_risk_medications.json` table, which cross-referenced 9 drug categories. After reviewing the evaluation gaps, two issues were clear: the static table had incomplete coverage, and there was no dynamic lookup for drug pairs not in the table. The NLM RxNorm API integration was added in the final development session, alongside expanding the static table from 9 to 20 categories. The static table now serves as the fallback when the API is unavailable — so the feature works during demos without internet access.
+**Drug interaction checking was added late.** The static reference table had incomplete coverage and no dynamic lookup for unlisted drug pairs. The NLM RxNorm API was integrated in the final session, with the static table (expanded from 9 to 20 categories) serving as the offline fallback.
 
-The test suite grew from 47 tests at the end of the first agent implementation to 152 tests at submission, reflecting incremental coverage added alongside each new tool and security feature rather than a test-first approach throughout. The evaluation suite was fixed at 36 checks early and served as the primary acceptance criterion for the full pipeline.
+The test suite grew from 47 to 152 tests across sessions, with coverage added alongside each new tool and security feature. The 36-check evaluation suite was fixed early and served as the primary acceptance criterion throughout.
