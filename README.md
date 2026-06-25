@@ -46,7 +46,7 @@ The critical window is the transition home: new drugs added, others discontinued
 | MCP Server | `mcp/mcp_server.py` — read-only FastMCP server backed by SQLite |
 | Agent Skill | `.agent/skills/medication-reconciliation/SKILL.md` |
 | Security features | `policy/policy_server.py` — forbidden phrase detection + required disclaimer enforcement; `tools/input_sanitizer.py` — prompt injection detection for user-uploaded documents |
-| Deployable app | `streamlit run app.py` — 5-tab Streamlit UI |
+| Deployable app | `streamlit run app.py` — 6-tab Streamlit UI |
 | Antigravity workflow | Spec-driven development with skills, `.agents/AGENTS.md`, `specs/` |
 
 ---
@@ -78,6 +78,26 @@ extract_medications → normalize_medication_list → detect_discrepancies
 | `case_001` | NSAID (ibuprofen OTC) + anticoagulant (apixaban) — patient still taking discontinued NSAID | HIGH |
 | `case_002` | Diuretic (furosemide) omitted at discharge — heart failure patient | HIGH |
 | `case_003` | Brand/generic duplication (omeprazole) — OTC stomach protector vs. prescription PPI | LOW |
+
+---
+
+## Screenshots
+
+**Case selection and source documents (Tab 1 + Tab 2)**
+
+![Case selection](demo/screenshots/SS-01_tab1_case_selection.png)
+
+**Reconciliation results — HIGH risk discrepancy detected (Tab 3)**
+
+![Results with HIGH risk badge](demo/screenshots/SS-04_tab3_results_full.png)
+
+**Agent tool trace — full audit trail**
+
+![Agent trace](demo/screenshots/SS-08_agent_trace.png)
+
+**Evaluation dashboard — 36/36 checks (Tab 4)**
+
+![Evaluation dashboard](demo/screenshots/SS-09_tab4_evaluation.png)
 
 ---
 
@@ -114,7 +134,7 @@ pytest tests/ -v
 python evals/run_evals.py
 ```
 
-Results: 127/127 tests, 36/36 evals.
+Results: 152/152 tests, 36/36 evals.
 
 ---
 
@@ -164,7 +184,7 @@ evals/
   SKILL.md           Agent skill definition (Antigravity workflow)
   references/        Reconciliation principles, discrepancy types, safe language
 
-app.py             Streamlit app (5 tabs)
+app.py             Streamlit app (6 tabs)
 ```
 
 ---

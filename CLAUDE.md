@@ -112,7 +112,7 @@ get_synthetic_case → get_discharge_summary → get_active_prescription
 | Datos | `data/synthetic_cases.json`, `data/gold_standard_discrepancies.json`, `data/high_risk_medications.json` |
 | MCP | `mcp/mcp_server.py`, `mcp/mcp_client.py` |
 | Agentes | `agents/orchestrator.py`, `agents/*.py` |
-| Herramientas | `tools/*.py` |
+| Herramientas | `tools/*.py` — incluye `drug_interactions.py` (NLM RxNorm + fallback) e `input_sanitizer.py` (prompt injection) |
 | Seguridad | `policy/policies.yaml`, `policy/forbidden_phrases.yaml`, `policy/policy_server.py` |
 | Skill | `.agent/skills/medication-reconciliation/SKILL.md` |
 | UI | `app.py` |

@@ -21,21 +21,21 @@ from tools.policy_check import run_policy_check
 
 POLICY_DIR = Path(__file__).parent.parent / "policy"
 
-_REQUIRED_ES = [
-    "requiere revisión profesional",
-    "no cambie la medicación sin consultar",
-    "lleve esta información a su profesional sanitario",
+_REQUIRED_EN = [
+    "requires professional review",
+    "do not change medication without consulting",
+    "bring this information to your clinician",
 ]
 
 _CLEAN_HIGH_RISK = (
-    "Hemos detectado algunas diferencias en su medicación que requiere revisión profesional. "
-    "Por favor, no cambie la medicación sin consultar a su médico o farmacéutico. "
-    "Lleve esta información a su profesional sanitario en su próxima visita."
+    "A discrepancy has been detected that requires professional review. "
+    "Do not change medication without consulting your doctor or nurse. "
+    "Bring this information to your clinician at your next visit."
 )
 
 _CLEAN_LOW_RISK = (
-    "Se han identificado algunas discrepancias menores en su medicación. "
-    "Su equipo sanitario le informará en la próxima consulta."
+    "Some minor discrepancies have been identified in your medication list. "
+    "Your healthcare team will advise you at your next appointment."
 )
 
 
@@ -132,19 +132,19 @@ def test_forbidden_phrase_mixed_case(server: PolicyServer) -> None:
 def test_high_risk_missing_all_required_fails(server: PolicyServer) -> None:
     result = server.check_patient_output(_CLEAN_LOW_RISK, is_high_risk=True)
     assert result.passed is False
-    for req in _REQUIRED_ES:
+    for req in _REQUIRED_EN:
         assert req in result.missing_required
 
 
 def test_high_risk_missing_one_required_fails(server: PolicyServer) -> None:
     text = (
-        "Hay discrepancias que requiere revisión profesional. "
-        "No cambie la medicación sin consultar."
-        # missing: "lleve esta información a su profesional sanitario"
+        "A discrepancy has been detected that requires professional review. "
+        "Do not change medication without consulting your doctor."
+        # missing: "bring this information to your clinician"
     )
     result = server.check_patient_output(text, is_high_risk=True)
     assert result.passed is False
-    assert "lleve esta información a su profesional sanitario" in result.missing_required
+    assert "bring this information to your clinician" in result.missing_required
 
 
 def test_not_high_risk_ignores_missing_required(server: PolicyServer) -> None:

@@ -154,3 +154,19 @@ MediConciliador SNS is a prototype for educational and demonstration purposes. I
 **Demo cases:** Three primary cases cover the highest-impact real-world scenarios: (1) case_001 — NSAID/anticoagulant interaction, HIGH risk; (2) case_002 — diuretic omission at discharge in a heart failure patient, HIGH risk; (3) case_003 — PPI brand/generic duplication, LOW risk. The agent correctly identifies and classifies all three scenarios, generates a policy-compliant patient summary, and produces a structured professional checklist with clinical rationale.
 
 The evaluation methodology separates behavioral correctness (does the agent detect the right discrepancies?) from code correctness (do the functions do what they are supposed to do?), following the distinction introduced in ADK Day 4b. The deterministic pipeline makes both types of evaluation fast and reproducible without requiring an API key.
+
+---
+
+## 7. Project Journey
+
+MediConciliador SNS followed a strict spec-first sequence. The full architecture — problem framing, agent topology, data model, tool taxonomy, safety constraints, and evaluation criteria — was written in `specs/00_project_blueprint.md` before a single line of code existed. The `SKILL.md` file came next, formalizing what the agent could and could not do. Only then were the agents, tools, and tests written — in that order.
+
+Three decisions changed significantly during development.
+
+**The analysis pipeline became deterministic.** The first version of AnalysisAgent used the LLM to identify discrepancies directly from the source documents. After the first evaluation run, the results were non-reproducible: the same case returned different discrepancy counts across runs, making it impossible to define a reliable gold standard. The pipeline was rewritten as deterministic Python — medication extraction, normalization, comparison, and risk scoring all produce identical results on every run. The LLM's role was narrowed to parsing unstructured input and generating natural language output.
+
+**The Policy Server became tool-enforced.** The original safety design placed forbidden-phrase instructions in the CommunicationAgent's prompt and trusted the model to follow them. Testing revealed that prompt instructions are a soft constraint — the model occasionally produced patient-facing text with implicit clinical directives that evaded the explicit rule set. The design was changed to require `run_policy_check` as a mandatory tool call, with a retry loop until `passed=true`. Safety shifted from something the model was asked to do to something the architecture enforced.
+
+**Drug interaction checking was added late.** The original risk scoring relied entirely on the static `data/high_risk_medications.json` table, which cross-referenced 9 drug categories. After reviewing the evaluation gaps, two issues were clear: the static table had incomplete coverage, and there was no dynamic lookup for drug pairs not in the table. The NLM RxNorm API integration was added in the final development session, alongside expanding the static table from 9 to 20 categories. The static table now serves as the fallback when the API is unavailable — so the feature works during demos without internet access.
+
+The test suite grew from 47 tests at the end of the first agent implementation to 152 tests at submission, reflecting incremental coverage added alongside each new tool and security feature rather than a test-first approach throughout. The evaluation suite was fixed at 36 checks early and served as the primary acceptance criterion for the full pipeline.

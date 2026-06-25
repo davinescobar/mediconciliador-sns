@@ -15,6 +15,7 @@ from tools.medication_normalization import normalize_medication_list
 from tools.discrepancy_detection import detect_discrepancies
 from tools.risk_scoring import score_discrepancy_risk
 from tools.trace_logger import log_tool_call, get_trace, clear_trace
+from tools.drug_interactions import check_drug_interactions
 
 
 def build_reconciliation_table(
@@ -86,6 +87,7 @@ def format_reconciliation_report(
     discrepancies_json: str,
     trace_json: str = "[]",
     reconciliation_table_json: str = "[]",
+    drug_interactions_json: str = "{}",
 ) -> str:
     """
     Structures scored discrepancies into a final report dict.
@@ -118,6 +120,7 @@ def format_reconciliation_report(
         "requires_professional_review": high > 0 or medium > 0,
         "reconciliation_table": json.loads(reconciliation_table_json),
         "discrepancies": discrepancies,
+        "drug_interactions": json.loads(drug_interactions_json),
         "trace": trace,
     }
     return json.dumps(report, ensure_ascii=False, indent=2)
@@ -206,12 +209,21 @@ def run_full_analysis(case_data_json: str, tool_context: ToolContext | None = No
         scored,
     )
 
+    all_med_names = list(
+        {m["name"] for m in json.loads(discharge_norm)}
+        | {m["name"] for m in json.loads(prescription_norm)}
+        | {m["name"] for m in json.loads(interview_norm)}
+    )
+    log_tool_call("check_drug_interactions", {"drug_count": len(all_med_names)})
+    drug_interaction_data = check_drug_interactions(all_med_names)
+
     log_tool_call("format_reconciliation_report", {"case_id": case_id})
     result = format_reconciliation_report(
         case_id=case_id,
         discrepancies_json=scored,
         trace_json=json.dumps(get_trace(), ensure_ascii=False),
         reconciliation_table_json=json.dumps(recon_table, ensure_ascii=False),
+        drug_interactions_json=json.dumps(drug_interaction_data, ensure_ascii=False),
     )
     # ADK Day 3: writing directly to state via ToolContext lets CommunicationAgent read {analysis_results} without LLM output parsing
     if tool_context is not None:

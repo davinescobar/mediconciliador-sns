@@ -1,6 +1,6 @@
 # Demo Script — MediConciliador SNS (Kaggle Capstone)
 
-**Target duration:** 3:30 – 4:30 min (max 5:00 — YouTube required)  
+**Target duration:** 3:50 – 4:30 min (max 5:00 — YouTube required)  
 **Language:** English  
 **Platform:** YouTube (Kaggle requirement — Loom does not qualify)  
 **Format:** Screen recording + narration (no face cam required)  
@@ -32,17 +32,15 @@ Confirm in browser before recording:
 - [ ] Browser tab title reads "MediConciliador SNS"
 - [ ] Tab 5 (Drug Search) loads and accepts queries
 
-Have open in separate terminals (for the project structure shot):
+Have open in a text editor or browser tab (zoomed in, full screen) for Part 2:
 ```
-mediconciliador-sns/
-├── agents/       ← orchestrator + 8 LlmAgent subagents
-├── mcp/          ← MCP server (read-only, SQLite, 9 tools)
-├── tools/        ← deterministic pipeline tools
-├── policy/       ← Policy Server + guardrails
-├── .agent/       ← Agent Skill (SKILL.md)
-├── evals/        ← evaluation runner (36 checks)
-├── tests/        ← 131 pytest tests
-└── app.py        ← Streamlit UI (6 tabs)
+MediConciliadorOrchestrator  (SequentialAgent)
+├── DataCollectionAgent      LlmAgent + MCPToolset  →  state: case_data
+├── AnalysisAgent            LlmAgent + run_full_analysis  →  state: analysis_results
+└── CommunicationAgent       LlmAgent + run_policy_check  →  state: reconciliation_report
+
+Standalone (Tab 5 in Streamlit):
+└── DrugInfoSearchAgent      LlmAgent + google_search (grounded)
 ```
 
 ---
@@ -62,22 +60,34 @@ mediconciliador-sns/
 
 ---
 
-### [0:30 – 0:45] Part 2 — The agent architecture
+### [0:30 – 1:05] Part 2 — Why agents + architecture
 
-**Screen:** Show the terminal with the project tree (run `tree -L 2 --dirsfirst` or use a pre-made slide).
+**Screen:** Switch to a text editor or browser tab showing the architecture diagram (pasted below in large font, full screen). Keep it visible for the full section. In VS Code: open `submission/kaggle_writeup.md`, navigate to section 2, and zoom in with ⌘+= until the diagram fills the screen.
+
+```
+MediConciliadorOrchestrator  (SequentialAgent)
+├── DataCollectionAgent      LlmAgent + MCPToolset  →  state: case_data
+├── AnalysisAgent            LlmAgent + run_full_analysis  →  state: analysis_results
+└── CommunicationAgent       LlmAgent + run_policy_check  →  state: reconciliation_report
+
+Standalone (Tab 5 in Streamlit):
+└── DrugInfoSearchAgent      LlmAgent + google_search (grounded)
+```
 
 **Narration:**
-> "The system is built on Google's Agent Development Kit. A SequentialAgent orchestrator coordinates eight specialized LLM agents — from parsing discharge summaries and normalizing medication names, to risk triage and communication — plus a dedicated drug search agent powered by Gemini's grounding tools."
+> "Why agents and not a simple script? A script could compare two formatted lists. But the real inputs here are unstructured: a PDF discharge summary, a handwritten prescription, and what a patient reports in an interview. Parsing those documents, normalizing drug names across brand names and generics, and generating output that adapts its language to two completely different audiences — a clinician and a patient — is a coordination problem. Each step depends on the previous one. Agents handle that dependency chain natively."
+
+> "The system is built on Google's Agent Development Kit. A SequentialAgent orchestrator coordinates three specialized LLM agents: DataCollectionAgent reads the three source documents through the MCP server; AnalysisAgent runs the deterministic reconciliation pipeline; CommunicationAgent generates the professional checklist and the patient summary, enforced by the Policy Server. A fourth agent — DrugInfoSearchAgent — handles pharmacological queries using Gemini's live web grounding."
 
 > "All data is synthetic. The MCP server is read-only. The agent does not write to any database."
 
 ---
 
-### [0:45 – 2:10] Part 3 — Live demo (case_001)
+### [1:05 – 2:30] Part 3 — Live demo (case_001)
 
 **Screen:** Switch to browser — Streamlit app.
 
-#### Step 1 — Case selection (0:45 – 0:55)
+#### Step 1 — Case selection (1:05 – 1:15)
 
 > "Let's run the most clinically significant case: case_001. A patient discharged with apixaban — a blood thinner — who is still taking ibuprofen, an anti-inflammatory they were told to stop."
 
@@ -85,7 +95,7 @@ mediconciliador-sns/
 
 ---
 
-#### Step 2 — Source documents (0:55 – 1:10)
+#### Step 2 — Source documents (1:15 – 1:30)
 
 > "The Sources tab shows the three inputs: the hospital discharge summary, the active prescription, and what the patient reported in the interview."
 
@@ -95,7 +105,7 @@ mediconciliador-sns/
 
 ---
 
-#### Step 3 — Run reconciliation (1:10 – 1:20)
+#### Step 3 — Run reconciliation (1:30 – 1:40)
 
 > "We trigger the reconciliation."
 
@@ -103,7 +113,7 @@ mediconciliador-sns/
 
 ---
 
-#### Step 4 — Results: discrepancy + risk (1:20 – 1:40)
+#### Step 4 — Results: discrepancy + risk (1:40 – 2:00)
 
 **Screen:** Results tab, discrepancy card.
 
@@ -115,7 +125,7 @@ mediconciliador-sns/
 
 ---
 
-#### Step 5 — Patient summary (1:40 – 1:50)
+#### Step 5 — Patient summary (2:00 – 2:10)
 
 **Screen:** Scroll to patient summary section.
 
@@ -123,7 +133,7 @@ mediconciliador-sns/
 
 ---
 
-#### Step 6 — Agent trace (1:50 – 2:10)
+#### Step 6 — Agent trace (2:10 – 2:30)
 
 **Screen:** Scroll to agent trace section.
 
@@ -131,7 +141,7 @@ mediconciliador-sns/
 
 ---
 
-### [2:10 – 2:35] Part 4 — Safety and evaluation
+### [2:30 – 2:55] Part 4 — Safety and evaluation
 
 **Screen:** Evaluation tab in the app.
 
@@ -144,7 +154,7 @@ mediconciliador-sns/
 
 ---
 
-### [2:35 – 2:55] Part 4b — Drug search (Tab 5)
+### [2:55 – 3:15] Part 4b — Drug search (Tab 5)
 
 **Screen:** Click Tab 5 "Drug Search" in the Streamlit app.
 
@@ -157,17 +167,17 @@ mediconciliador-sns/
 
 ---
 
-### [2:55 – 3:15] Part 5 — Course concepts
+### [3:15 – 3:35] Part 5 — The build
 
 **Screen:** Show `README.md` or a pre-made summary slide.
 
 **Narration:**
-> "Six course concepts, six green checkboxes."
+> "Six course concepts, six green checkboxes. Here's how it was built."
 
 *Action: Read or point to each row:*
 
 ```
-ADK multi-agent system  →  SequentialAgent + 8 LlmAgents (agents/orchestrator.py)
+ADK multi-agent system  →  SequentialAgent + 3 LlmAgents + DrugInfoSearchAgent
 MCP Server              →  read-only SQLite, 9 tools (mcp/mcp_server.py)
 Agent Skill             →  .agent/skills/medication-reconciliation/SKILL.md
 Security features       →  Policy Server + prompt injection detection (input_sanitizer.py)
@@ -175,9 +185,11 @@ Deployable app          →  streamlit run app.py — 6 tabs, 152 tests green
 Antigravity workflow    →  spec-first: blueprint → SKILL.md → agents → tests → app
 ```
 
+> "The project followed a spec-first sequence — the full architecture was documented before a single line of code was written. The deterministic analysis pipeline replaced an early LLM-based version after the first evaluation run revealed non-reproducible outputs. The Policy Server moved from prompt instructions to a tool-enforced loop after realizing the model could ignore instructions but cannot skip tool calls."
+
 ---
 
-### [3:15 – 3:30] Part 6 — Closing
+### [3:35 – 3:50] Part 6 — Closing
 
 **Screen:** Return to app with case_001 result visible.
 
@@ -191,12 +203,12 @@ Antigravity workflow    →  spec-first: blueprint → SKILL.md → agents → t
 | Section | Duration | Running total |
 |---------|----------|---------------|
 | Problem | 0:30 | 0:30 |
-| Architecture | 0:15 | 0:45 |
-| Live demo (case_001) | 1:25 | 2:10 |
-| Safety + evals | 0:25 | 2:35 |
-| Drug search (Tab 5) | 0:20 | 2:55 |
-| Course concepts | 0:20 | 3:15 |
-| Closing | 0:15 | 3:30 |
+| Why agents + Architecture | 0:35 | 1:05 |
+| Live demo (case_001) | 1:25 | 2:30 |
+| Safety + evals | 0:25 | 2:55 |
+| Drug search (Tab 5) | 0:20 | 3:15 |
+| The build | 0:20 | 3:35 |
+| Closing | 0:15 | 3:50 |
 
 ---
 
@@ -209,7 +221,7 @@ Antigravity workflow    →  spec-first: blueprint → SKILL.md → agents → t
 
 **If Streamlit fails to start:**
 - Run `python evals/run_evals.py` in terminal and narrate from the terminal output.
-- All 15 checks are visible in the output — sufficient to demonstrate the pipeline.
+- All 36 checks are visible in the output — sufficient to demonstrate the pipeline.
 
 **If GOOGLE_API_KEY is not available:**
 - The deterministic pipeline (`tools/report_generation.py`) runs without it.

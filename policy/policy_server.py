@@ -44,7 +44,7 @@ class PolicyServer:
 
         patient_policy = policies.get("patient_output_policy", {})
         self._required_high_risk_es: list[str] = patient_policy.get(
-            "required_phrases_for_high_risk_es", []
+            "required_phrases_for_high_risk_en", []
         )
 
     def check_semantic(self, text: str) -> tuple[bool, str]:

@@ -1,12 +1,18 @@
 [
   {
     "case_id": "case_001",
-    "title": "AINE + anticoagulante — paciente con fibrilación auricular",
+    "title": "NSAID + anticoagulant — patient with atrial fibrillation",
     "patient_profile": {
       "age": 84,
       "sex": "female",
-      "risk_factors": ["atrial_fibrillation", "chronic_kidney_disease", "polypharmacy"],
-      "allergies": ["penicillin"]
+      "risk_factors": [
+        "atrial_fibrillation",
+        "chronic_kidney_disease",
+        "polypharmacy"
+      ],
+      "allergies": [
+        "penicillin"
+      ]
     },
     "discharge_summary": {
       "date": "2024-11-15",
@@ -103,11 +109,16 @@
   },
   {
     "case_id": "case_002",
-    "title": "Omisión de diurético al alta — insuficiencia cardiaca",
+    "title": "Diuretic omission at discharge — heart failure",
     "patient_profile": {
       "age": 79,
       "sex": "male",
-      "risk_factors": ["heart_failure", "hypertension", "type_2_diabetes", "polypharmacy"],
+      "risk_factors": [
+        "heart_failure",
+        "hypertension",
+        "type_2_diabetes",
+        "polypharmacy"
+      ],
       "allergies": []
     },
     "discharge_summary": {
@@ -200,11 +211,16 @@
   },
   {
     "case_id": "case_003",
-    "title": "Duplicidad marca/genérico — hipertensión y polimedicación",
+    "title": "Brand/generic duplication — hypertension and polypharmacy",
     "patient_profile": {
       "age": 87,
       "sex": "female",
-      "risk_factors": ["hypertension", "osteoporosis", "polypharmacy", "cognitive_mild_impairment"],
+      "risk_factors": [
+        "hypertension",
+        "osteoporosis",
+        "polypharmacy",
+        "cognitive_mild_impairment"
+      ],
       "allergies": []
     },
     "discharge_summary": {
@@ -297,11 +313,16 @@
   },
   {
     "case_id": "case_004",
-    "title": "Doble anticoagulación — Sintrom no retirado tras cambio a apixabán",
+    "title": "Double anticoagulation — acenocoumarol not discontinued after switch to apixaban",
     "patient_profile": {
       "age": 79,
       "sex": "male",
-      "risk_factors": ["atrial_fibrillation", "hypertension", "polypharmacy", "chronic_kidney_disease"],
+      "risk_factors": [
+        "atrial_fibrillation",
+        "hypertension",
+        "polypharmacy",
+        "chronic_kidney_disease"
+      ],
       "allergies": []
     },
     "discharge_summary": {
@@ -399,11 +420,16 @@
   },
   {
     "case_id": "case_005",
-    "title": "Warfarina ausente de la receta — prótesis valvular mecánica",
+    "title": "Warfarin missing from prescription — mechanical heart valve",
     "patient_profile": {
       "age": 82,
       "sex": "female",
-      "risk_factors": ["mechanical_heart_valve", "atrial_fibrillation", "hypertension", "polypharmacy"],
+      "risk_factors": [
+        "mechanical_heart_valve",
+        "atrial_fibrillation",
+        "hypertension",
+        "polypharmacy"
+      ],
       "allergies": []
     },
     "discharge_summary": {
@@ -476,11 +502,16 @@
   },
   {
     "case_id": "case_006",
-    "title": "Omisión de torasemida — edema sin insuficiencia cardiaca documentada",
+    "title": "Torasemide omission — edema without documented heart failure",
     "patient_profile": {
       "age": 76,
       "sex": "male",
-      "risk_factors": ["hypertension", "type_2_diabetes", "peripheral_edema", "polypharmacy"],
+      "risk_factors": [
+        "hypertension",
+        "type_2_diabetes",
+        "peripheral_edema",
+        "polypharmacy"
+      ],
       "allergies": []
     },
     "discharge_summary": {
@@ -553,11 +584,15 @@
   },
   {
     "case_id": "case_007",
-    "title": "Glibenclamida no documentada — paciente toma antidiabético antiguo",
+    "title": "Undocumented glibenclamide — patient taking legacy antidiabetic",
     "patient_profile": {
       "age": 78,
       "sex": "female",
-      "risk_factors": ["type_2_diabetes", "hypertension", "polypharmacy"],
+      "risk_factors": [
+        "type_2_diabetes",
+        "hypertension",
+        "polypharmacy"
+      ],
       "allergies": []
     },
     "discharge_summary": {
@@ -630,11 +665,16 @@
   },
   {
     "case_id": "case_008",
-    "title": "Duplicidad PPI — omeprazol prescrito y protector gástrico OTC",
+    "title": "PPI duplication — prescribed omeprazole and OTC stomach protector",
     "patient_profile": {
       "age": 85,
       "sex": "female",
-      "risk_factors": ["osteoporosis", "hypertension", "polypharmacy", "cognitive_mild_impairment"],
+      "risk_factors": [
+        "osteoporosis",
+        "hypertension",
+        "polypharmacy",
+        "cognitive_mild_impairment"
+      ],
       "allergies": []
     },
     "discharge_summary": {
@@ -727,11 +767,16 @@
   },
   {
     "case_id": "case_009",
-    "title": "Digoxina discontinuada — paciente sigue tomándola tras toxicidad",
+    "title": "Digoxin discontinued — patient still taking it after toxicity episode",
     "patient_profile": {
       "age": 80,
       "sex": "male",
-      "risk_factors": ["heart_failure", "atrial_fibrillation", "chronic_kidney_disease", "polypharmacy"],
+      "risk_factors": [
+        "heart_failure",
+        "atrial_fibrillation",
+        "chronic_kidney_disease",
+        "polypharmacy"
+      ],
       "allergies": []
     },
     "discharge_summary": {
@@ -829,11 +874,16 @@
   },
   {
     "case_id": "case_010",
-    "title": "Aspirina OTC no documentada — arteriopatía periférica y polimedicación",
+    "title": "Undocumented OTC aspirin — peripheral artery disease and polypharmacy",
     "patient_profile": {
       "age": 73,
       "sex": "male",
-      "risk_factors": ["type_2_diabetes", "hypertension", "peripheral_arterial_disease", "polypharmacy"],
+      "risk_factors": [
+        "type_2_diabetes",
+        "hypertension",
+        "peripheral_arterial_disease",
+        "polypharmacy"
+      ],
       "allergies": []
     },
     "discharge_summary": {
